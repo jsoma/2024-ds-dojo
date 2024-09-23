@@ -49,53 +49,43 @@
     "text": "Tips\nThere are two ways to sort a list! One is just for display, and one sorts the list permanently. Keep an eye out for which one you’re using.\nProgrammers are weird about counting. What number do they start with?\nThere might be a magic way to get the last item of a list in Python (or to start counting from the end).\nWhen dealing with multiple numbers - population, for example - be sure to keep them all at the same level. If Brooklyn has 1.4 million people and Staten Island as 470,000, storing their population as 1.4 and 470000 isn’t going to let you compare them accurately!"
   },
   {
-    "objectID": "pandas.html",
-    "href": "pandas.html",
-    "title": "Data analysis with pandas",
+    "objectID": "basics.html",
+    "href": "basics.html",
+    "title": "Python basics",
     "section": "",
-    "text": "Pandas is Python’s equivalent to Excel. According to the official documentation:",
+    "text": "There are many, many ways to set up and run Python. Maybe you’ll do it piece by piece yourself, or use plug-and-play with Anaconda, or stick to the cloud with Google Colab\nWe’re going to be using JupyterLab Desktop.\nTo find instructions on using JupyterLab Desktop, check the class slides",
     "crumbs": [
-      "Data analysis"
+      "Python basics"
     ]
   },
   {
-    "objectID": "pandas.html#slides",
-    "href": "pandas.html#slides",
-    "title": "Data analysis with pandas",
-    "section": "Slides",
-    "text": "Slides\nSlides will be posted prior to class.\n\nCharacter encoding presentation",
+    "objectID": "basics.html#in-class",
+    "href": "basics.html#in-class",
+    "title": "Python basics",
+    "section": "In-class",
+    "text": "In-class\nWelcome survey\nClass slides",
     "crumbs": [
-      "Data analysis"
+      "Python basics"
     ]
   },
   {
-    "objectID": "pandas.html#completed-work",
-    "href": "pandas.html#completed-work",
-    "title": "Data analysis with pandas",
+    "objectID": "basics.html#completed-work",
+    "href": "basics.html#completed-work",
+    "title": "Python basics",
     "section": "Completed work",
     "text": "Completed work\nCompleted notebooks will be posted after class.",
     "crumbs": [
-      "Data analysis"
+      "Python basics"
     ]
   },
   {
-    "objectID": "pandas.html#additional-links",
-    "href": "pandas.html#additional-links",
-    "title": "Data analysis with pandas",
+    "objectID": "basics.html#additional-links",
+    "href": "basics.html#additional-links",
+    "title": "Python basics",
     "section": "Additional links",
-    "text": "Additional links\n\nReal-world data analysis with pandas and Python, a video series I produced within the past few years\nFirst Python Notebook, a Jupyter/pandas tutorial by data journalist Ben Welsh",
+    "text": "Additional links\n\nPython’s Not (Just) For Unicorns, an introduction to Python",
     "crumbs": [
-      "Data analysis"
-    ]
-  },
-  {
-    "objectID": "pandas.html#ai-question-prompt",
-    "href": "pandas.html#ai-question-prompt",
-    "title": "Data analysis with pandas",
-    "section": "AI question prompt",
-    "text": "AI question prompt\nWhen asking questions to your AI tool, it is You can automatically copy part of your dataframe to the clipboard with the code below\ndf.sample(5).to_clipboard()\nI have a dataframe that looks like the below. I want to _____.\n\n(paste description)\n\nIt can sometimes be useful to ask “is there a simpler approach?” after you ask a question like the below.",
-    "crumbs": [
-      "Data analysis"
+      "Python basics"
     ]
   },
   {
@@ -123,7 +113,7 @@
     "href": "index.html#tuesday",
     "title": "データサイエンティストDOJO 2024",
     "section": "Tuesday",
-    "text": "Tuesday\n\nData analysis with Python and pandas\nAPIs, documented and undocumented",
+    "text": "Tuesday\n\nData analysis (pandas) and APIs",
     "crumbs": [
       "Home"
     ]
@@ -169,43 +159,93 @@
     ]
   },
   {
-    "objectID": "basics.html",
-    "href": "basics.html",
-    "title": "Python basics",
+    "objectID": "pandas-and-apis.html",
+    "href": "pandas-and-apis.html",
+    "title": "Data analysis and APIs",
     "section": "",
-    "text": "There are many, many ways to set up and run Python. Maybe you’ll do it piece by piece yourself, or use plug-and-play with Anaconda, or stick to the cloud with Google Colab\nWe’re going to be using JupyterLab Desktop.\nTo find instructions on using JupyterLab Desktop, check the class slides",
+    "text": "Pandas is Python’s equivalent to Excel. According to the official documentation:",
     "crumbs": [
-      "Python basics"
+      "Data analysis and APIs"
     ]
   },
   {
-    "objectID": "basics.html#in-class",
-    "href": "basics.html#in-class",
-    "title": "Python basics",
-    "section": "In-class",
-    "text": "In-class\nWelcome survey\nClass slides",
+    "objectID": "pandas-and-apis.html#code-and-data",
+    "href": "pandas-and-apis.html#code-and-data",
+    "title": "Data analysis and APIs",
+    "section": "Code and data",
+    "text": "Code and data\nCopy these files somewhere you can find (your Desktop, maybe). Then right-click, extract to get the files inside.\n\nDownload pandas-worksheets.zip here\nDownload api-worksheets.zip here\n\nIf you’d rather just watch and listen instead of type, each notebook has a COMPLETED version. It has my code already.",
     "crumbs": [
-      "Python basics"
+      "Data analysis and APIs"
     ]
   },
   {
-    "objectID": "basics.html#completed-work",
-    "href": "basics.html#completed-work",
-    "title": "Python basics",
+    "objectID": "pandas-and-apis.html#slides",
+    "href": "pandas-and-apis.html#slides",
+    "title": "Data analysis and APIs",
+    "section": "Slides",
+    "text": "Slides\nData cleaning slides",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "pandas-and-apis.html#setup",
+    "href": "pandas-and-apis.html#setup",
+    "title": "Data analysis and APIs",
+    "section": "Setup",
+    "text": "Setup\nPandas is installed using pip. You can run the code below in a Jupyterlab Desktop notebook cell:\n%pip install pandas\nTo use pandas you need to be running a Jupyter Notebook.",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "pandas-and-apis.html#completed-work",
+    "href": "pandas-and-apis.html#completed-work",
+    "title": "Data analysis and APIs",
     "section": "Completed work",
     "text": "Completed work\nCompleted notebooks will be posted after class.",
     "crumbs": [
-      "Python basics"
+      "Data analysis and APIs"
     ]
   },
   {
-    "objectID": "basics.html#additional-links",
-    "href": "basics.html#additional-links",
-    "title": "Python basics",
+    "objectID": "pandas-and-apis.html#additional-links",
+    "href": "pandas-and-apis.html#additional-links",
+    "title": "Data analysis and APIs",
     "section": "Additional links",
-    "text": "Additional links\n\nPython’s Not (Just) For Unicorns, an introduction to Python",
+    "text": "Additional links\n\nReal-world data analysis with pandas and Python, a video series I produced within the past few years\nFirst Python Notebook, a Jupyter/pandas tutorial by data journalist Ben Welsh\nInspect Element, a series of tutorials about Undocumented APIs\nUsing paginated APIs with Python (four ways!), a video from me about going through APIs that have multiple pages of results",
     "crumbs": [
-      "Python basics"
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "pandas-and-apis.html#pandas",
+    "href": "pandas-and-apis.html#pandas",
+    "title": "Data analysis and APIs",
+    "section": "Pandas",
+    "text": "Pandas\nWhen asking questions to your AI tool, it is usually useful to give an example of your data. You can automatically copy part of your dataframe to the clipboard with the code below\ndf.sample(5).to_clipboard()\nI have a dataframe that looks like the below. I want to _____.\n\n(paste sample of dataframe)\n\nIt can sometimes be useful to ask “is there a simpler approach?” after you ask a question like the below.",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "pandas-and-apis.html#apis",
+    "href": "pandas-and-apis.html#apis",
+    "title": "Data analysis and APIs",
+    "section": "APIs",
+    "text": "APIs\nYou can get a description of the structure of your data like this:\ndef describe_data(data, depth=0, max_depth=4):\n    if isinstance(data, dict):\n        if depth &gt; max_depth:\n            return '(...)'\n        return {key: describe_data(value, depth + 1) for key, value in data.items()}\n    elif isinstance(data, list) and data:\n        if depth &gt; max_depth:\n            return '(...)'\n        return [describe_data(data[0], depth + 1)]\n    else:\n        return type(data)\n\ndescribe_data(data)\nThis prompt is a little more complicated, because usually ChatGPT tries to do something too crazy. Feel free to adjust the prompt until it works for you.\nI have API output that is a python dictionary, saved as data. The data structure is described as below. Provide code to convert the data into a dataframe of **______**. This probably just means pd.json_normalize with the appropriate key. If you need to ask clarifying questions about the data itself, provide code snippets I can run to help answer them. You don't need to use print since I'm in a Jupyter notebook. Use functions only if absolutely necessary.\n\n(paste description of data)",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "scraping.html",
+    "href": "scraping.html",
+    "title": "Scraping",
+    "section": "",
+    "text": "%%python -m pip install --quiet \"ipykernel==6.28.0\"\nget_ipython().kernel.do_shutdown(restart=True)",
+    "crumbs": [
+      "Scraping with Python"
     ]
   }
 ]

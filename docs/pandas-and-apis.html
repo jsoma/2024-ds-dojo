@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>データサイエンティストDOJO 2024 - Data analysis with pandas</title>
+<title>データサイエンティストDOJO 2024 - Data analysis and APIs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./apis.html" rel="next">
+<link href="./scraping.html" rel="next">
 <link href="./basics.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="static/style.css">
-<meta name="twitter:title" content="データサイエンティストDOJO 2024 - Data analysis with pandas">
+<meta name="twitter:title" content="データサイエンティストDOJO 2024 - Data analysis and APIs">
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="@dangerscarf">
 <meta name="twitter:card" content="summary">
@@ -132,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pandas.html">Data analysis</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pandas-and-apis.html">Data analysis and APIs</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -166,14 +166,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pandas.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Data analysis</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./apis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">APIs</span></a>
+  <a href="./pandas-and-apis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Data analysis and APIs</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -211,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data analysis with pandas</h1>
+<h1 class="title">Data analysis and APIs</h1>
 </div>
 
 
@@ -232,20 +226,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool, built on top of the Python programming language.</p>
 </blockquote>
-<section id="setup" class="level1">
-<h1>Setup</h1>
+<section id="session-content" class="level1">
+<h1>Session content</h1>
+<p>Today I am providing notebooks! <strong>Please download them below.</strong></p>
+<section id="code-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="code-and-data">Code and data</h2>
+<p>Copy these files somewhere you can find (your Desktop, maybe). Then right-click, extract to get the files inside.</p>
+<ul>
+<li><a href="02-pandas-apis/pandas-worksheets.zip">Download <code>pandas-worksheets.zip</code> here</a></li>
+<li><a href="02-pandas-apis/api-worksheets.zip">Download <code>api-worksheets.zip</code> here</a></li>
+</ul>
+<p>If you’d rather just watch and listen instead of type, each notebook has a COMPLETED version. It has my code already.</p>
+</section>
+<section id="slides" class="level2">
+<h2 class="anchored" data-anchor-id="slides">Slides</h2>
+<p><a href="02-pandas-apis/cleaning.pdf">Data cleaning slides</a></p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <p>Pandas is installed using <code>pip</code>. You can run the code below in a Jupyterlab Desktop notebook cell:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">%pip</span> install pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To use pandas you need to be running a Jupyter Notebook.</p>
-</section>
-<section id="session-content" class="level1">
-<h1>Session content</h1>
-<section id="slides" class="level2">
-<h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<p>Slides will be posted prior to class.</p>
-<ul>
-<li><a href="https://jonathansoma.com/projects/charsets">Character encoding presentation</a></li>
-</ul>
 </section>
 <section id="completed-work" class="level2">
 <h2 class="anchored" data-anchor-id="completed-work">Completed work</h2>
@@ -256,30 +257,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><a href="https://www.youtube.com/playlist?list=PLewNEVDy7gq08UYzhKO3VwthH6KLx1sZD">Real-world data analysis with pandas and Python</a>, a video series I produced within the past few years</li>
 <li><a href="https://palewi.re/docs/first-python-notebook/index.html">First Python Notebook</a>, a Jupyter/pandas tutorial by data journalist Ben Welsh</li>
+<li><a href="https://inspectelement.org/">Inspect Element</a>, a series of tutorials about Undocumented APIs</li>
+<li><a href="https://www.youtube.com/watch?v=4Fdyft-ky0w">Using paginated APIs with Python (four ways!)</a>, a video from me about going through APIs that have multiple pages of results</li>
 </ul>
 </section>
 </section>
-<section id="ai-prompt" class="level1">
-<h1>AI Prompt</h1>
-</section>
-<section id="pandas" class="level1">
-<h1>Pandas</h1>
-<section id="ai-question-prompt" class="level2">
-<h2 class="anchored" data-anchor-id="ai-question-prompt">AI question prompt</h2>
-<p>When asking questions to your AI tool, it is You can automatically copy part of your dataframe to the clipboard with the code below</p>
+<section id="ai-prompts" class="level1">
+<h1>AI Prompts</h1>
+<section id="pandas" class="level2">
+<h2 class="anchored" data-anchor-id="pandas">Pandas</h2>
+<p>When asking questions to your AI tool, it is usually useful to give an example of your data. You can automatically copy part of your dataframe to the clipboard with the code below</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df.sample(<span class="dv">5</span>).to_clipboard()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre class="prompt">I have a dataframe that looks like the below. I want to _____.
 
-(paste description)
+<strong>(paste sample of dataframe)</strong>
 </pre>
 <p>It can sometimes be useful to ask “is there a simpler approach?” after you ask a question like the below.</p>
 </section>
+<section id="apis" class="level2">
+<h2 class="anchored" data-anchor-id="apis">APIs</h2>
+<p>You can get a description of the structure of your data like this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> describe_data(data, depth<span class="op">=</span><span class="dv">0</span>, max_depth<span class="op">=</span><span class="dv">4</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(data, <span class="bu">dict</span>):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> depth <span class="op">&gt;</span> max_depth:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">'(...)'</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {key: describe_data(value, depth <span class="op">+</span> <span class="dv">1</span>) <span class="cf">for</span> key, value <span class="kw">in</span> data.items()}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="bu">isinstance</span>(data, <span class="bu">list</span>) <span class="kw">and</span> data:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> depth <span class="op">&gt;</span> max_depth:</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">'(...)'</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [describe_data(data[<span class="dv">0</span>], depth <span class="op">+</span> <span class="dv">1</span>)]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">type</span>(data)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>describe_data(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This prompt is a little more complicated, because usually ChatGPT tries to do something <em>too crazy</em>. Feel free to adjust the prompt until it works for you.</p>
+<pre class="prompt">I have API output that is a python dictionary, saved as data. The data structure is described as below. Provide code to convert the data into a dataframe of **______**. This probably just means pd.json_normalize with the appropriate key. If you need to ask clarifying questions about the data itself, provide code snippets I can run to help answer them. You don't need to use print since I'm in a Jupyter notebook. Use functions only if absolutely necessary.
+
+<strong>(paste description of data)</strong>
+</pre>
+
+
 </section>
-<section id="homework" class="level1">
-<h1>Homework</h1>
-<p>Homework will be posted after class.</p>
-
-
 </section>
 
 </main> <!-- /main -->
@@ -677,8 +695,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./apis.html" class="pagination-link" aria-label="APIs">
-        <span class="nav-page-text">APIs</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./scraping.html" class="pagination-link" aria-label="Scraping with Python">
+        <span class="nav-page-text">Scraping with Python</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -690,7 +708,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 <p>©2024, Jonathan Soma</p>
-<div class="toc-actions"><ul><li><a href="https://github.com/jsoma/2024-dojo/edit/main/pandas.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/jsoma/2024-dojo/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/jsoma/2024-dojo/edit/main/pandas-and-apis.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/jsoma/2024-dojo/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
