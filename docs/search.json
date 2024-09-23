@@ -1,113 +1,31 @@
 [
   {
-    "objectID": "basics.html",
-    "href": "basics.html",
-    "title": "Python basics",
+    "objectID": "01-python-basics/homework.html",
+    "href": "01-python-basics/homework.html",
+    "title": "Python Fundamentals homework",
     "section": "",
-    "text": "There are many, many ways to set up and run Python. Maybe you’ll do it piece by piece yourself, or use plug-and-play with Anaconda, or stick to the cloud with Google Colab\nWe’re going to be using JupyterLab Desktop.\nTo find instructions on using JupyterLab Desktop, check the class slides",
-    "crumbs": [
-      "Python basics"
-    ]
+    "text": "Please take the data sources survey here. It will help me know what kind of data or products to focus on."
   },
   {
-    "objectID": "basics.html#in-class",
-    "href": "basics.html#in-class",
-    "title": "Python basics",
-    "section": "In-class",
-    "text": "In-class\nWelcome survey\nClass slides",
-    "crumbs": [
-      "Python basics"
-    ]
+    "objectID": "01-python-basics/homework.html#setup",
+    "href": "01-python-basics/homework.html#setup",
+    "title": "Python Fundamentals homework",
+    "section": "Setup",
+    "text": "Setup\nPlease create a new notebook named ‘First Homework’.\nTurn the first cell into a Markdown cell and add:\n\nThe first line should be your full name\nThe second line should be the date\nThe third line should be “Homework: Basic Python”\n\nThey should be displayed as a list, with the little bullet points on the left. You can look at what we did in class, check this reference sheet, or even ask ChatGPT."
   },
   {
-    "objectID": "basics.html#completed-work",
-    "href": "basics.html#completed-work",
-    "title": "Python basics",
-    "section": "Completed work",
-    "text": "Completed work\nCompleted notebooks will be posted after class.",
-    "crumbs": [
-      "Python basics"
-    ]
+    "objectID": "01-python-basics/homework.html#assignment",
+    "href": "01-python-basics/homework.html#assignment",
+    "title": "Python Fundamentals homework",
+    "section": "Assignment",
+    "text": "Assignment\nWhen run from top to bottom, this notebook should prompt the user for their year of birth, and display the information below. Use complete sentences (don’t just print the answer), and it’s okay for calculations to be approximate.\nThe first cell should use input to prompt the user for their year of birth. The second cell should do all of the rest.\n\nHow old the user is\nIn that time, how many times the user’s heart has beaten.\nIn that time, how many times a blue whale’s heart has beaten.\nIn that time, how many times a rabbit’s heart has beaten. If the answer to rabbit heartbeats is more than a billion, say “XXX billion” instead of the very long raw number\nThere are several ways to calculate and format/display numbers in Python – string addition, f-strings, commas, etc etc etc. Redo one of the above questions above with another technique and briefly explain the pros and cons of each approach.\nWhether they are the same age as you, older or younger\nIf older or younger, how many years difference\nIf they were born in an even or odd year\nHow many prime ministers have been in office since the user was born\nIf someone says they were born in the future, ask them for their year of birth again. Assume they’ll do it right the second time."
   },
   {
-    "objectID": "basics.html#additional-links",
-    "href": "basics.html#additional-links",
-    "title": "Python basics",
-    "section": "Additional links",
-    "text": "Additional links\n\nPython’s Not (Just) For Unicorns, an introduction to Python",
-    "crumbs": [
-      "Python basics"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Data Dojo 2024",
-    "section": "",
-    "text": "Find this page at bit.ly/2024-dojo",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#monday",
-    "href": "index.html#monday",
-    "title": "Data Dojo 2024",
-    "section": "Monday",
-    "text": "Monday\n\nIntroduction and Python basics",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#tuesday",
-    "href": "index.html#tuesday",
-    "title": "Data Dojo 2024",
-    "section": "Tuesday",
-    "text": "Tuesday\n\nData analysis with Python and pandas\nAPIs, documented and undocumented",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#wednesday",
-    "href": "index.html#wednesday",
-    "title": "Data Dojo 2024",
-    "section": "Wednesday",
-    "text": "Wednesday\n\nScraping\nArtificial intelligence",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#thursday",
-    "href": "index.html#thursday",
-    "title": "Data Dojo 2024",
-    "section": "Thursday",
-    "text": "Thursday\n\nData Visualization\nProject management",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#friday",
-    "href": "index.html#friday",
-    "title": "Data Dojo 2024",
-    "section": "Friday",
-    "text": "Friday\nTroubleshooting and project work time",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#monday-1",
-    "href": "index.html#monday-1",
-    "title": "Data Dojo 2024",
-    "section": "Monday",
-    "text": "Monday\nProject presentations",
-    "crumbs": [
-      "Home"
-    ]
+    "objectID": "01-python-basics/homework.html#hints-and-tips",
+    "href": "01-python-basics/homework.html#hints-and-tips",
+    "title": "Python Fundamentals homework",
+    "section": "Hints and tips",
+    "text": "Hints and tips\n\nIf you use ChatGPT to help with this assignment, think about the tradeoffs between the learning process vs the process of having something completed. We’ll talk more about that tomorrow!\n\nTo review the basics of Python, visit the Little Columns tutorial\nWhen you ask a user for information, Python always saves it as a string. But a year as a string isn’t very useful! You’ll need to convert it to an integer before you do anything to it (there might be some tips in the tutorial to help you with that).\nHow fast does a blue whale’s heart beat? I don’t know, I’m not a biologist - research it!\nBefore you write out a solution as code, write out what you want to do in words (a comment would be good for this). Breaking down the steps as “real” text can do a lot to help you organize your Python code.\nXXX billion will involve either division, rounding, or converting to an integer.\nYou might need to know about…\n\nmultiple comparisons in if\nadding one to variables (incrementing)\nelse/elif\nmodulo (for the even/odd one)\n\nAnything not covered in the tutorial probably exists somewhere on the internet, or through ChatGPT!"
   },
   {
     "objectID": "pandas.html",
@@ -160,31 +78,113 @@
     ]
   },
   {
-    "objectID": "01-python-basics/homework.html",
-    "href": "01-python-basics/homework.html",
-    "title": "Python Fundamentals homework",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Data Scientist Dojo 2024",
     "section": "",
-    "text": "Please take the data sources survey here. It will help me know what kind of data or products to focus on."
+    "text": "Find this page at bit.ly/2024-dojo",
+    "crumbs": [
+      "Home"
+    ]
   },
   {
-    "objectID": "01-python-basics/homework.html#setup",
-    "href": "01-python-basics/homework.html#setup",
-    "title": "Python Fundamentals homework",
-    "section": "Setup",
-    "text": "Setup\nPlease create a new notebook named ‘First Homework’.\nTurn the first cell into a Markdown cell and add:\n\nThe first line should be your full name\nThe second line should be the date\nThe third line should be “Homework: Basic Python”\n\nThey should be displayed as a list, with the little bullet points on the left. You can look at what we did in class, check this reference sheet, or even ask ChatGPT."
+    "objectID": "index.html#monday",
+    "href": "index.html#monday",
+    "title": "Data Scientist Dojo 2024",
+    "section": "Monday",
+    "text": "Monday\n\nIntroduction and Python basics",
+    "crumbs": [
+      "Home"
+    ]
   },
   {
-    "objectID": "01-python-basics/homework.html#assignment",
-    "href": "01-python-basics/homework.html#assignment",
-    "title": "Python Fundamentals homework",
-    "section": "Assignment",
-    "text": "Assignment\nWhen run from top to bottom, this notebook should prompt the user for their year of birth, and display the information below. Use complete sentences (don’t just print the answer), and it’s okay for calculations to be approximate.\nThe first cell should use input to prompt the user for their year of birth. The second cell should do all of the rest.\n\nHow old the user is\nIn that time, how many times the user’s heart has beaten.\nIn that time, how many times a blue whale’s heart has beaten.\nIn that time, how many times a rabbit’s heart has beaten. If the answer to rabbit heartbeats is more than a billion, say “XXX billion” instead of the very long raw number\nThere are several ways to calculate and format/display numbers in Python – string addition, f-strings, commas, etc etc etc. Redo one of the above questions above with another technique and briefly explain the pros and cons of each approach.\nWhether they are the same age as you, older or younger\nIf older or younger, how many years difference\nIf they were born in an even or odd year\nHow many prime ministers have been in office since the user was born\nIf someone says they were born in the future, ask them for their year of birth again. Assume they’ll do it right the second time."
+    "objectID": "index.html#tuesday",
+    "href": "index.html#tuesday",
+    "title": "Data Scientist Dojo 2024",
+    "section": "Tuesday",
+    "text": "Tuesday\n\nData analysis with Python and pandas\nAPIs, documented and undocumented",
+    "crumbs": [
+      "Home"
+    ]
   },
   {
-    "objectID": "01-python-basics/homework.html#hints-and-tips",
-    "href": "01-python-basics/homework.html#hints-and-tips",
-    "title": "Python Fundamentals homework",
-    "section": "Hints and tips",
-    "text": "Hints and tips\n\nIf you use ChatGPT to help with this assignment, think about the tradeoffs between the learning process vs the process of having something completed. We’ll talk more about that tomorrow!\n\nTo review the basics of Python, visit the Little Columns tutorial\nWhen you ask a user for information, Python always saves it as a string. But a year as a string isn’t very useful! You’ll need to convert it to an integer before you do anything to it (there might be some tips in the tutorial to help you with that).\nHow fast does a blue whale’s heart beat? I don’t know, I’m not a biologist - research it!\nBefore you write out a solution as code, write out what you want to do in words (a comment would be good for this). Breaking down the steps as “real” text can do a lot to help you organize your Python code.\nXXX billion will involve either division, rounding, or converting to an integer.\nYou might need to know about…\n\nmultiple comparisons in if\nadding one to variables (incrementing)\nelse/elif\nmodulo (for the even/odd one)\n\nAnything not covered in the tutorial probably exists somewhere on the internet, or through ChatGPT!"
+    "objectID": "index.html#wednesday",
+    "href": "index.html#wednesday",
+    "title": "Data Scientist Dojo 2024",
+    "section": "Wednesday",
+    "text": "Wednesday\n\nScraping\nArtificial intelligence",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#thursday",
+    "href": "index.html#thursday",
+    "title": "Data Scientist Dojo 2024",
+    "section": "Thursday",
+    "text": "Thursday\n\nData Visualization\nProject management",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#friday",
+    "href": "index.html#friday",
+    "title": "Data Scientist Dojo 2024",
+    "section": "Friday",
+    "text": "Friday\nTroubleshooting and project work time",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#monday-1",
+    "href": "index.html#monday-1",
+    "title": "Data Scientist Dojo 2024",
+    "section": "Monday",
+    "text": "Monday\nProject presentations",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "basics.html",
+    "href": "basics.html",
+    "title": "Python basics",
+    "section": "",
+    "text": "There are many, many ways to set up and run Python. Maybe you’ll do it piece by piece yourself, or use plug-and-play with Anaconda, or stick to the cloud with Google Colab\nWe’re going to be using JupyterLab Desktop.\nTo find instructions on using JupyterLab Desktop, check the class slides",
+    "crumbs": [
+      "Python basics"
+    ]
+  },
+  {
+    "objectID": "basics.html#in-class",
+    "href": "basics.html#in-class",
+    "title": "Python basics",
+    "section": "In-class",
+    "text": "In-class\nWelcome survey\nClass slides",
+    "crumbs": [
+      "Python basics"
+    ]
+  },
+  {
+    "objectID": "basics.html#completed-work",
+    "href": "basics.html#completed-work",
+    "title": "Python basics",
+    "section": "Completed work",
+    "text": "Completed work\nCompleted notebooks will be posted after class.",
+    "crumbs": [
+      "Python basics"
+    ]
+  },
+  {
+    "objectID": "basics.html#additional-links",
+    "href": "basics.html#additional-links",
+    "title": "Python basics",
+    "section": "Additional links",
+    "text": "Additional links\n\nPython’s Not (Just) For Unicorns, an introduction to Python",
+    "crumbs": [
+      "Python basics"
+    ]
   }
 ]
