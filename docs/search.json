@@ -28,6 +28,27 @@
     "text": "Hints and tips\n\nIf you use ChatGPT to help with this assignment, think about the tradeoffs between the learning process vs the process of having something completed. We’ll talk more about that tomorrow!\n\nTo review the basics of Python, visit the Little Columns tutorial\nWhen you ask a user for information, Python always saves it as a string. But a year as a string isn’t very useful! You’ll need to convert it to an integer before you do anything to it (there might be some tips in the tutorial to help you with that).\nHow fast does a blue whale’s heart beat? I don’t know, I’m not a biologist - research it!\nBefore you write out a solution as code, write out what you want to do in words (a comment would be good for this). Breaking down the steps as “real” text can do a lot to help you organize your Python code.\nXXX billion will involve either division, rounding, or converting to an integer.\nYou might need to know about…\n\nmultiple comparisons in if\nadding one to variables (incrementing)\nelse/elif\nmodulo (for the even/odd one)\n\nAnything not covered in the tutorial probably exists somewhere on the internet, or through ChatGPT!"
   },
   {
+    "objectID": "01-python-basics/homework.html#lists",
+    "href": "01-python-basics/homework.html#lists",
+    "title": "Python Fundamentals homework",
+    "section": "Lists",
+    "text": "Lists\n\nMake a list of the following numbers: 22, 90, 0, -10, 3, 22, and 48\nDisplay the number of elements in the list.\nDisplay the 4th element of this list.\nDisplay the sum of the 2nd and 4th element of the list.\nDisplay the 2nd-largest value in the list.\nDisplay the last element of the original unsorted list\nDisplay the sum of all of the numbers divided by two.\nPrint whether the median or the mean of the numbers is higher"
+  },
+  {
+    "objectID": "01-python-basics/homework.html#dictionaries",
+    "href": "01-python-basics/homework.html#dictionaries",
+    "title": "Python Fundamentals homework",
+    "section": "Dictionaries",
+    "text": "Dictionaries\n\nSometimes dictionaries are used to describe multiple aspects of a single object. Like, say, a movie. Define a dictionary called movie that works with the following code.\n\nprint(\"My favorite movie is\", movie['title'], \"which was released in\", movie['year'], \"and was directed by\", movie['director'])\n\nOn the lines after that, add keys to the movie dictionary for budget and revenue (you’ll use code like movie[‘budget’] = 1000), and print out the difference between the two.\nIf the movie cost more to make than it made in theaters, print “That was a bad investment”. If the film’s revenue was more than five times the amount it cost to make, print “That was a great investment.” Otherwise print “That was an okay investment.”\nSometimes dictionaries are used to describe the same aspects of many different objects. Make ONE dictionary that describes the population of the boroughs of NYC. Manhattan has 1.6 million residents, Brooklyn has 2.6m, Bronx has 1.4m, Queens has 2.3m and Staten Island has 470,000. (Tip: keeping it all in either millions or thousands is a good idea)\nDisplay the population of Brooklyn.\nDisplay the combined population of all five boroughs.\nDisplay what percent of NYC’s population lives in Manhattan."
+  },
+  {
+    "objectID": "01-python-basics/homework.html#tips",
+    "href": "01-python-basics/homework.html#tips",
+    "title": "Python Fundamentals homework",
+    "section": "Tips",
+    "text": "Tips\nThere are two ways to sort a list! One is just for display, and one sorts the list permanently. Keep an eye out for which one you’re using.\nProgrammers are weird about counting. What number do they start with?\nThere might be a magic way to get the last item of a list in Python (or to start counting from the end).\nWhen dealing with multiple numbers - population, for example - be sure to keep them all at the same level. If Brooklyn has 1.4 million people and Staten Island as 470,000, storing their population as 1.4 and 470000 isn’t going to let you compare them accurately!"
+  },
+  {
     "objectID": "pandas.html",
     "href": "pandas.html",
     "title": "Data analysis with pandas",

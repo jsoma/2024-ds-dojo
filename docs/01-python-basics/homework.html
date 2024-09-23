@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -245,6 +279,45 @@ ul.task-list li input[type="checkbox"] {
 <li>modulo (for the even/odd one)</li>
 </ul>
 <p>Anything not covered in the tutorial probably exists somewhere on the internet, or through ChatGPT!</p>
+</section>
+</section>
+<section id="homework-part-3-lists-and-dictionaries" class="level1">
+<h1>Homework, Part 3: Lists and dictionaries</h1>
+<p>Lists and dictionaries are always tough to figure out, and they only make sense once you’ve really spent some time with them. This homework and <a href="https://littlecolumns.com/learn/python">the Little Columns tutorial</a> will really help you out! <strong>Be sure to check the tips at the bottom!</strong></p>
+<section id="lists" class="level2">
+<h2 class="anchored" data-anchor-id="lists">Lists</h2>
+<ol type="1">
+<li>Make a list of the following numbers: 22, 90, 0, -10, 3, 22, and 48</li>
+<li>Display the number of elements in the list.</li>
+<li>Display the 4th element of this list.</li>
+<li>Display the sum of the 2nd and 4th element of the list.</li>
+<li>Display the 2nd-largest value in the list.</li>
+<li>Display the last element of the original unsorted list</li>
+<li>Display the sum of all of the numbers divided by two.</li>
+<li>Print whether the median or the mean of the numbers is higher</li>
+</ol>
+</section>
+<section id="dictionaries" class="level2">
+<h2 class="anchored" data-anchor-id="dictionaries">Dictionaries</h2>
+<ol type="1">
+<li>Sometimes dictionaries are used to describe multiple aspects of a single object. Like, say, a movie. Define a dictionary called movie that works with the following code.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"My favorite movie is"</span>, movie[<span class="st">'title'</span>], <span class="st">"which was released in"</span>, movie[<span class="st">'year'</span>], <span class="st">"and was directed by"</span>, movie[<span class="st">'director'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>On the lines after that, add keys to the movie dictionary for budget and revenue (you’ll use code like movie[‘budget’] = 1000), and print out the difference between the two.</li>
+<li>If the movie cost more to make than it made in theaters, print “That was a bad investment”. If the film’s revenue was more than five times the amount it cost to make, print “That was a great investment.” Otherwise print “That was an okay investment.”</li>
+<li>Sometimes dictionaries are used to describe the same aspects of many different objects. Make ONE dictionary that describes the population of the boroughs of NYC. Manhattan has 1.6 million residents, Brooklyn has 2.6m, Bronx has 1.4m, Queens has 2.3m and Staten Island has 470,000. (Tip: keeping it all in either millions or thousands is a good idea)</li>
+<li>Display the population of Brooklyn.</li>
+<li>Display the combined population of all five boroughs.</li>
+<li>Display what percent of NYC’s population lives in Manhattan.</li>
+</ol>
+</section>
+<section id="tips" class="level2">
+<h2 class="anchored" data-anchor-id="tips">Tips</h2>
+<p>There are two ways to sort a list! One is just for display, and one sorts the list permanently. Keep an eye out for which one you’re using.</p>
+<p>Programmers are weird about counting. What number do they start with?</p>
+<p>There might be a magic way to get the last item of a list in Python (or to start counting from the end).</p>
+<p>When dealing with multiple numbers - population, for example - be sure to keep them all at the same level. If Brooklyn has 1.4 million people and Staten Island as 470,000, storing their population as 1.4 and 470000 isn’t going to let you compare them accurately!</p>
 
 
 </section>
