@@ -246,7 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="homework">Homework</h2>
 <ul>
 <li><a href="02-pandas-apis/pandas-homework.zip">pandas homework</a> (There is a LOT of it! Don’t worry about finishing it all, even one notebook is good)</li>
-<li>API homework I will upload later!</li>
+<li><a href="02-pandas-apis/api-homework.zip">api homework</a></li>
 </ul>
 </section>
 <section id="setup" class="level2">
@@ -294,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>describe_data(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This prompt is a little more complicated, because usually ChatGPT tries to do something <em>too crazy</em>. Feel free to adjust the prompt until it works for you.</p>
-<pre class="prompt">I have API output that is a python dictionary, saved as data. The data structure is described as below. Provide code to convert the data into a dataframe of **______**. This probably just means pd.json_normalize with the appropriate key. If you need to ask clarifying questions about the data itself, provide code snippets I can run to help answer them. You don't need to use print since I'm in a Jupyter notebook. Use functions only if absolutely necessary.
+<pre class="prompt">I have API output that is a python dictionary, saved as data. The data structure is described as below. Provide code to convert the data into a dataframe of **______**. This probably just means pd.json_normalize with the appropriate key. Don't use meta. If you need to ask clarifying questions about the data itself, provide code snippets I can run to help answer them. You don't need to use print since I'm in a Jupyter notebook. Use functions only if absolutely necessary.
 
 <strong>(paste description of data)</strong>
 </pre>
