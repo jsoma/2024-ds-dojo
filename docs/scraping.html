@@ -106,6 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <link rel="stylesheet" href="static/style.css">
 <meta name="twitter:title" content="データサイエンティストDOJO 2024 - Scraping">
+<meta name="twitter:description" content="">
 <meta name="twitter:creator" content="@dangerscarf">
 <meta name="twitter:card" content="summary">
 </head>
@@ -221,10 +222,89 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>python <span class="op">-</span>m pip install <span class="op">--</span>quiet <span class="st">"ipykernel==6.28.0"</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>get_ipython().kernel.do_shutdown(restart<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="https://playwright.dev/python/">Playwright</a> is a great library for scraping data in Python.</p>
+<section id="session-content" class="level1">
+<h1>Session content</h1>
+<section id="code-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="code-and-data">Code and data</h2>
+<p>You will create your own notebooks today!</p>
+</section>
+<section id="slides" class="level2">
+<h2 class="anchored" data-anchor-id="slides">Slides</h2>
+<p><a href="03-scraping/scraping-slides.pdf">Scraping slides</a></p>
+</section>
+<section id="homework" class="level2">
+<h2 class="anchored" data-anchor-id="homework">Homework</h2>
+<p>Homework will be posted later</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>Playwright is installed using <code>pip</code>. It also needs many other tools to make sure our code will work. Please run the code below in a Jupyterlab Desktop notebook cell:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">%%python</span> <span class="at">-m</span> pip install lxml html5lib beautifulsoup4 pandas</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">%%python</span> <span class="at">-m</span> pip install <span class="at">--quiet</span> playwright</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then we need to install web browsers for Playwright to use:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">!playwright</span> install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you use Windows, you also need to <strong>few more lines</strong> to make Playwright work in Jupyter.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>python <span class="op">-</span>m pip install <span class="op">--</span>quiet <span class="st">"ipykernel==6.28.0"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>get_ipython().kernel.do_shutdown(restart<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="completed-work" class="level2">
+<h2 class="anchored" data-anchor-id="completed-work">Completed work</h2>
+<p>Completed notebooks will be posted after class.</p>
+</section>
+<section id="additional-links" class="level2">
+<h2 class="anchored" data-anchor-id="additional-links">Additional links</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=UPQQ3cyFrpg">Scraping with Playwright</a>, a video</li>
+</ul>
+</section>
+</section>
+<section id="guide" class="level1">
+<h1>Guide</h1>
+<section id="getting-basic-code" class="level2">
+<h2 class="anchored" data-anchor-id="getting-basic-code">Getting basic code</h2>
+<p>You can get basic code by using <code>!playwright codegen</code>. It will launch a browser that will record everything you do in it.</p>
+</section>
+<section id="inspecting-our-pages" class="level2">
+<h2 class="anchored" data-anchor-id="inspecting-our-pages">Inspecting our pages</h2>
+<section id="opening-the-web-inspector" class="level3">
+<h3 class="anchored" data-anchor-id="opening-the-web-inspector">Opening the web inspector</h3>
+<p>Right-click (or command-click) to bring up the menu, then select <strong>Inspect</strong> (I think it is <strong>検証 </strong> in Japanese Chrome). It might be slightly different if you aren’t using Chrome!</p>
+<p><img src="static/click-inspect.png" class="img-fluid"></p>
+</section>
+<section id="using-the-web-inspector" class="level3">
+<h3 class="anchored" data-anchor-id="using-the-web-inspector">Using the web inspector</h3>
+<p>Move your mouse around on the code on the right.</p>
+<video autoplay="" muted="" loop="">
+<source src="static/finding-divs-resized.mov" type="video/mp4">
+<p>Your browser does not support the video tag. </p>
+<p>Or click the ‘select’ button and click what you are interested in</p>
+<video autoplay="" muted="" loop="">
+<source src="static/clicking-resized.mov" type="video/mp4">
+<p>Your browser does not support the video tag. </p>
+</video></video></section>
+<section id="getting-the-code" class="level3">
+<h3 class="anchored" data-anchor-id="getting-the-code">Getting the code</h3>
+<p>To get the HTML code for part of the page, first find it using the Web Inspector. Then right click, Copy, Copy outerHTML. You can paste this into ChatGPT to help write your scraper.</p>
+<p><img src="static/select-outerhtml.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="writing-your-scraper" class="level2">
+<h2 class="anchored" data-anchor-id="writing-your-scraper">Writing your scraper</h2>
+<p>Use <a href="./scraping-prompt-2.html">this custom prompt</a> or <a href="./scraping-prompt-1.html">this other custom prompt</a> to see if you can put together a scraper! We’ll walk through it several times in class.</p>
+<p>Our example we’ll use is <strong>Apraisal Companies</strong> from <a href="https://ia-plb.my.site.com/LicenseSearchPage">https://ia-plb.my.site.com/LicenseSearchPage</a></p>
+</section>
+</section>
+<section id="ai-prompts" class="level1">
+<h1>AI Prompts</h1>
+<p>The two prompt examples are:</p>
+<ul>
+<li><a href="./scraping-prompt-2.html">Scraping prompt Codegen Type</a></li>
+<li><a href="./scraping-prompt-1.html">Scraping prompt Without Codegen</a></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
