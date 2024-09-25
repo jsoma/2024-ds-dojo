@@ -207,7 +207,7 @@
     "href": "pandas-and-apis.html#homework",
     "title": "Data analysis and APIs",
     "section": "Homework",
-    "text": "Homework\n\npandas homework (There is a LOT of it! Don’t worry about finishing it all, even one notebook is good)\napi homework",
+    "text": "Homework\n\npandas homework (There is a LOT of it! Don’t worry about finishing it all, even one notebook is good)\napi homework - answer keys",
     "crumbs": [
       "Data analysis and APIs"
     ]
@@ -297,7 +297,7 @@
     "href": "scraping.html#homework",
     "title": "Scraping",
     "section": "Homework",
-    "text": "Homework\nHomework will be posted later.",
+    "text": "Homework\n\nSince we worked on data cleaning today, you should be able to work on more of the notebooks from yesterday\nIn today’s classwork there is a notebook called 02-cleaning worksheet.ipynb. Use your data cleaning skills to extract the appropriate data (and don’t look at the completed version!!!)\nScrape some content from here",
     "crumbs": [
       "Scraping with Python"
     ]
