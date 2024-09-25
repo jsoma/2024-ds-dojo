@@ -402,7 +402,7 @@
     "href": "scraping-prompt-1.html#the-second-prompt",
     "title": "Scraping Prompt Without Codegen",
     "section": "The second prompt",
-    "text": "The second prompt\nThe prompt below usually gives imperfect results. After this prompt gives its final code, add a follow-up to get better code:\nRemember my important notes!\n- Use async playwright with async/await\n- Do NOT use asyncio\n- Flatten the code to not use functions"
+    "text": "The second prompt\nThe prompt below usually gives imperfect results. After this prompt gives its final code, add a follow-up to get better code:\nRemember my important notes!\n- Use async playwright with async/await\n- Do NOT use asyncio\n- Flatten the code to not use functions, so the data and df are available in other cells\n\nWe are just testing this now. Have it scrape a maximum of 5 pages."
   },
   {
     "objectID": "scraping-prompt-1.html#copy-and-paste-the-prompt-below",
