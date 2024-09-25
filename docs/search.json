@@ -377,7 +377,7 @@
     "href": "scraping.html#fixing-the-output",
     "title": "Scraping",
     "section": "Fixing the output",
-    "text": "Fixing the output\nThe code that ChatGPT produces is always a little wrong at first. Add this prompt after ChatGPT gives you its code to improve it:\nRemember my important notes!\n- Use async playwright with async/await\n- Do NOT use asyncio\n- Flatten the code to not use functions, so the data and df are available in other cells\n\nWe are just testing this now. Have it scrape a maximum of 5 pages.",
+    "text": "Fixing the output\nThe code that ChatGPT produces is always a little wrong at first. Add this prompt after ChatGPT gives you its code to improve it:\nRemember my important notes!\n- Use async playwright with async/await\n- Do NOT use asyncio\n- Flatten the code to not use functions, so the data and df are available in other cells\n- No main function\n\nWe are just testing this now. Have it scrape a maximum of 5 pages.",
     "crumbs": [
       "Scraping with Python"
     ]
