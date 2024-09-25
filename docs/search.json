@@ -7,13 +7,6 @@
     "text": "Try this prompt in ChatGPT or Claude to put together a scraper!\nThis version uses playwright codegen"
   },
   {
-    "objectID": "scraping-prompt-2.html#after-the-prompt-use-this",
-    "href": "scraping-prompt-2.html#after-the-prompt-use-this",
-    "title": "Scraping Prompt Codegen Type",
-    "section": "AFTER the prompt, use this",
-    "text": "AFTER the prompt, use this\nThe prompt below usually gives imperfect results. After this prompt after ChatGPT gives its final code. It will make the code better!\nRemember my important notes!\n- Use async playwright with async/await\n- Do NOT use asyncio\n- Flatten the code to not use functions, so the data and df are available in other cells\n\nWe are just testing this now. Have it scrape a maximum of 5 pages."
-  },
-  {
     "objectID": "scraping-prompt-2.html#copy-and-paste-the-prompt-below",
     "href": "scraping-prompt-2.html#copy-and-paste-the-prompt-below",
     "title": "Scraping Prompt Codegen Type",
