@@ -398,6 +398,13 @@
     "text": "An example?\nIf you’d like to try a sample website, search for Apraisal Companies at https://ia-plb.my.site.com/LicenseSearchPage"
   },
   {
+    "objectID": "scraping-prompt-1.html#the-second-prompt",
+    "href": "scraping-prompt-1.html#the-second-prompt",
+    "title": "Scraping Prompt Without Codegen",
+    "section": "The second prompt",
+    "text": "The second prompt\nThe prompt below usually gives imperfect results. After this prompt gives its final code, add a follow-up to get better code:\nRemember my important notes, do not use asyncio, and be sure to make this flat"
+  },
+  {
     "objectID": "scraping-prompt-1.html#copy-and-paste-the-prompt-below",
     "href": "scraping-prompt-1.html#copy-and-paste-the-prompt-below",
     "title": "Scraping Prompt Without Codegen",
