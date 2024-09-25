@@ -195,9 +195,16 @@ ul.task-list li input[type="checkbox"] {
 get_ipython().kernel.do_shutdown(restart=True)</code></pre>
 <p>ChatGPT doesn’t always remind you to use it, but be sure to put it in the first cell!</p>
 </section>
-<section id="an-example" class="level2">
-<h2 class="anchored" data-anchor-id="an-example">An example?</h2>
-<p>If you’d like to try a sample website, search for <strong>Apraisal Companies</strong> at <a href="https://ia-plb.my.site.com/LicenseSearchPage">https://ia-plb.my.site.com/LicenseSearchPage</a></p>
+<section id="after-the-prompt-use-this" class="level2">
+<h2 class="anchored" data-anchor-id="after-the-prompt-use-this">AFTER the prompt, use this</h2>
+<p>The prompt below usually gives imperfect results. After this prompt after ChatGPT gives its final code. It will make the code better!</p>
+<pre class="prompt">Remember my important notes!
+- Use async playwright with async/await
+- Do NOT use asyncio
+- Flatten the code to not use functions, so the data and df are available in other cells
+
+We are just testing this now. Have it scrape a maximum of 5 pages.
+</pre>
 </section>
 <section id="copy-and-paste-the-prompt-below" class="level2">
 <h2 class="anchored" data-anchor-id="copy-and-paste-the-prompt-below">Copy and paste the prompt below</h2>

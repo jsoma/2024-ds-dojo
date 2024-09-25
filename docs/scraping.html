@@ -256,10 +256,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb4"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>python <span class="op">-</span>m pip install <span class="op">--</span>quiet <span class="st">"ipykernel==6.28.0"</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>get_ipython().kernel.do_shutdown(restart<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="completed-work" class="level2">
-<h2 class="anchored" data-anchor-id="completed-work">Completed work</h2>
-<p>Completed notebooks will be posted after class.</p>
-</section>
 <section id="additional-links" class="level2">
 <h2 class="anchored" data-anchor-id="additional-links">Additional links</h2>
 <ul>
@@ -269,17 +265,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="guide" class="level1">
 <h1>Guide</h1>
+<section id="starting-the-prompt" class="level2">
+<h2 class="anchored" data-anchor-id="starting-the-prompt">Starting the prompt</h2>
+<p>First, paste <a href="https://jsoma.github.io/2024-ds-dojo/scraping-prompt-2.html">this custom prompt</a> into ChatGPT. It will walk you through the process</p>
+</section>
 <section id="getting-basic-code" class="level2">
 <h2 class="anchored" data-anchor-id="getting-basic-code">Getting basic code</h2>
-<p>You can get basic code by using <code>!playwright codegen</code>. It will launch a browser that will record everything you do in it.</p>
+<p>For the first step, ChatGPT will ask you to run <code>!playwright codegen</code>. This will open a new browser.</p>
+<p>Use this browser to visit the page you want to scrape, fill out any forms you need (dropdowns, inputs, buttons), and click a “next” button if necessary.</p>
+<p><img src="static/codegen-1.png" class="img-fluid"></p>
+<p>There is a second window that will write code for you. This will teach ChatGPT how to use the website.</p>
+<p>Before you cut and paste the code into ChatGPT, use the dropdown to change the code to <strong>Python &gt; Library Async</strong></p>
+<p><img src="static/codegen-2.png" class="img-fluid"></p>
 </section>
-<section id="inspecting-our-pages" class="level2">
-<h2 class="anchored" data-anchor-id="inspecting-our-pages">Inspecting our pages</h2>
-<section id="opening-the-web-inspector" class="level3">
-<h3 class="anchored" data-anchor-id="opening-the-web-inspector">Opening the web inspector</h3>
-<p>Right-click (or command-click) to bring up the menu, then select <strong>Inspect</strong> (I think it is <strong>検証 </strong> in Japanese Chrome). It might be slightly different if you aren’t using Chrome!</p>
+<section id="opening-the-web-inspector" class="level2">
+<h2 class="anchored" data-anchor-id="opening-the-web-inspector">Opening the web inspector</h2>
+<p>Next, ChatGPT will ask you to explain the HTML of your “row” of data. Right-click (or command-click) to bring up the menu, then select <strong>Inspect</strong> (<strong>検証</strong> in Japanese Chrome). It might be slightly different if you aren’t using Chrome!</p>
 <p><img src="static/click-inspect.png" class="img-fluid"></p>
-</section>
 <section id="using-the-web-inspector" class="level3">
 <h3 class="anchored" data-anchor-id="using-the-web-inspector">Using the web inspector</h3>
 <p>Move your mouse around on the code on the right.</p>
@@ -290,28 +292,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <video autoplay="" muted="" loop="">
 <source src="static/clicking-resized.mov" type="video/mp4">
 <p>Your browser does not support the video tag. </p>
+<p>Move as high up as possible on the right while still only selecting the area you want.</p>
 </video></video></section>
-<section id="getting-the-code" class="level3">
-<h3 class="anchored" data-anchor-id="getting-the-code">Getting the code</h3>
-<p>To get the HTML code for part of the page, first find it using the Web Inspector. Then right click, Copy, Copy outerHTML. You can paste this into ChatGPT to help write your scraper.</p>
+</section>
+<section id="getting-the-code" class="level2">
+<h2 class="anchored" data-anchor-id="getting-the-code">Getting the code</h2>
+<p>To get the HTML code for part of the page, first find it using the Web Inspector. Then <strong>right click, Copy, Copy outerHTML.</strong> You will paste this into ChatGPT to help write your scraper.</p>
 <p><img src="static/select-outerhtml.png" class="img-fluid"></p>
 </section>
+<section id="pagination" class="level2">
+<h2 class="anchored" data-anchor-id="pagination">Pagination</h2>
+<p>For the next step, repeat the process above to get the HTML code for the <strong>pagination</strong> area. This will teach ChatGPT how to use “next” buttons.</p>
 </section>
-<section id="writing-your-scraper" class="level2">
-<h2 class="anchored" data-anchor-id="writing-your-scraper">Writing your scraper</h2>
-<p>Use <a href="./scraping-prompt-2.html">this custom prompt</a> or <a href="./scraping-prompt-1.html">this other custom prompt</a> to see if you can put together a scraper! We’ll walk through it several times in class.</p>
-<p>Our example we’ll use is <strong>Apraisal Companies</strong> from <a href="https://ia-plb.my.site.com/LicenseSearchPage">https://ia-plb.my.site.com/LicenseSearchPage</a></p>
+<section id="fixing-the-output" class="level2">
+<h2 class="anchored" data-anchor-id="fixing-the-output">Fixing the output</h2>
+<p>The code that ChatGPT produces is <strong>always a little wrong</strong> at first. Add this prompt after ChatGPT gives you its code to improve it:</p>
+<pre class="prompt">Remember my important notes!
+- Use async playwright with async/await
+- Do NOT use asyncio
+- Flatten the code to not use functions, so the data and df are available in other cells
+
+We are just testing this now. Have it scrape a maximum of 5 pages.
+</pre>
 </section>
-</section>
-<section id="ai-prompts" class="level1">
-<h1>AI Prompts</h1>
-<p>The two prompt examples are:</p>
-<ul>
-<li><a href="./scraping-prompt-2.html">Scraping prompt Codegen Type</a></li>
-<li><a href="./scraping-prompt-1.html">Scraping prompt Without Codegen</a></li>
-</ul>
+<section id="iterating" class="level2">
+<h2 class="anchored" data-anchor-id="iterating">Iterating</h2>
+<p>You might be done! If you get an error, paste it into ChatGPT to get new code as an answer. If you get another error, paste that error in.</p>
+<p><strong>After two errors, just start from the beginning in a new chat.</strong> There are many ways to write Playwright scraping code and starting from zero might be best.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
