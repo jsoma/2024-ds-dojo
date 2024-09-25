@@ -7,13 +7,6 @@
     "text": "Try this prompt in ChatGPT or Claude to put together a scraper!\nThis version uses playwright codegen"
   },
   {
-    "objectID": "scraping-prompt-2.html#but-first-windows-people",
-    "href": "scraping-prompt-2.html#but-first-windows-people",
-    "title": "Scraping Prompt Codegen Type",
-    "section": "But first: WINDOWS PEOPLE",
-    "text": "But first: WINDOWS PEOPLE\nWindows and Playwright don’t get along very well, so first we’ll use this code to install a very specific version of some software to make things work.\n%%python -m pip install --quiet \"ipykernel==6.28.0\"\nget_ipython().kernel.do_shutdown(restart=True)\nChatGPT doesn’t always remind you to use it, but be sure to put it in the first cell!"
-  },
-  {
     "objectID": "scraping-prompt-2.html#after-the-prompt-use-this",
     "href": "scraping-prompt-2.html#after-the-prompt-use-this",
     "title": "Scraping Prompt Codegen Type",

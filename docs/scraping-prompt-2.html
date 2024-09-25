@@ -188,13 +188,6 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Try this prompt in <a href="https://chatgpt.com/">ChatGPT</a> or <a href="https://claude.ai/">Claude</a> to put together a scraper!</p>
 <p><strong>This version uses <code>playwright codegen</code></strong></p>
-<section id="but-first-windows-people" class="level2">
-<h2 class="anchored" data-anchor-id="but-first-windows-people">But first: WINDOWS PEOPLE</h2>
-<p>Windows and Playwright don’t get along very well, so first we’ll use this code to install a <em>very specific version</em> of some software to make things work.</p>
-<pre><code>%%python -m pip install --quiet "ipykernel==6.28.0"
-get_ipython().kernel.do_shutdown(restart=True)</code></pre>
-<p>ChatGPT doesn’t always remind you to use it, but be sure to put it in the first cell!</p>
-</section>
 <section id="after-the-prompt-use-this" class="level2">
 <h2 class="anchored" data-anchor-id="after-the-prompt-use-this">AFTER the prompt, use this</h2>
 <p>The prompt below usually gives imperfect results. After this prompt after ChatGPT gives its final code. It will make the code better!</p>
@@ -208,7 +201,7 @@ We are just testing this now. Have it scrape a maximum of 5 pages.
 </section>
 <section id="copy-and-paste-the-prompt-below" class="level2">
 <h2 class="anchored" data-anchor-id="copy-and-paste-the-prompt-below">Copy and paste the prompt below</h2>
-<pre>I have the following guide about scraping a website. Please adapt it to be for how to scrape a different website. Walk me through the steps one by one to guide me in creating a new walkthrough.
+<pre class="prompt">I have the following guide about scraping a website. Please adapt it to be for how to scrape a different website. Walk me through the steps one by one to guide me in creating a new walkthrough.
 
 Proceed in several steps, ONE AT A TIME. Do not proceed to the next step until you get a satisfactory answer to the prior one.
 
