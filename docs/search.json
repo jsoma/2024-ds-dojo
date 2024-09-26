@@ -65,9 +65,9 @@
   {
     "objectID": "data-visualization.html",
     "href": "data-visualization.html",
-    "title": "Data analysis and APIs",
+    "title": "Data Visualization, PDFs and AI",
     "section": "",
-    "text": "Pandas is Python’s equivalent to Excel. According to the official documentation:",
+    "text": "Please download these files:\n\nVisualization data\nPDF data\nMore PDFs for research\n\n\n\n\n\nVisualization\nAI\n\n\n\n\nData visualization\n\nDesigning Viz, data viz tips\nDatawrapper, a platform for data viz\nFlourish, a platform for data viz\n\nPDFs\n\nTabula, a great tool for extracting data from PDFs\nComparison of PDF data extraction tools\nComparison of OCR tools\n\nArtificial intelligence\n\nClaude for Sheets example sheet\nHugging Face\nAnything LLM",
     "crumbs": [
       "Data Visualization"
     ]
@@ -75,9 +75,9 @@
   {
     "objectID": "data-visualization.html#code-and-data",
     "href": "data-visualization.html#code-and-data",
-    "title": "Data analysis and APIs",
-    "section": "Code and data",
-    "text": "Code and data\n\nVisualization data\nPDF data\nMore PDFs for research",
+    "title": "Data Visualization, PDFs and AI",
+    "section": "",
+    "text": "Please download these files:\n\nVisualization data\nPDF data\nMore PDFs for research",
     "crumbs": [
       "Data Visualization"
     ]
@@ -85,9 +85,9 @@
   {
     "objectID": "data-visualization.html#slides",
     "href": "data-visualization.html#slides",
-    "title": "Data analysis and APIs",
-    "section": "Slides",
-    "text": "Slides\n\nVisualization\nAI",
+    "title": "Data Visualization, PDFs and AI",
+    "section": "",
+    "text": "Visualization\nAI",
     "crumbs": [
       "Data Visualization"
     ]
@@ -95,9 +95,9 @@
   {
     "objectID": "data-visualization.html#links",
     "href": "data-visualization.html#links",
-    "title": "Data analysis and APIs",
-    "section": "Links",
-    "text": "Links\nData visualization\n\nDesigning Viz, data viz tips\nDatawrapper, a platform for data viz\nFlourish, a platform for data viz\n\nPDFs\n\nTabula, a great tool for extracting data from PDFs\nComparison of PDF data extraction tools\nComparison of OCR tools\n\nArtificial intelligence\n\nClaude for Sheets example sheet\nHugging Face\nAnything LLM",
+    "title": "Data Visualization, PDFs and AI",
+    "section": "",
+    "text": "Data visualization\n\nDesigning Viz, data viz tips\nDatawrapper, a platform for data viz\nFlourish, a platform for data viz\n\nPDFs\n\nTabula, a great tool for extracting data from PDFs\nComparison of PDF data extraction tools\nComparison of OCR tools\n\nArtificial intelligence\n\nClaude for Sheets example sheet\nHugging Face\nAnything LLM",
     "crumbs": [
       "Data Visualization"
     ]
@@ -187,7 +187,7 @@
     "href": "index.html#thursday",
     "title": "データサイエンティストDOJO 2024",
     "section": "Thursday",
-    "text": "Thursday\n\nData Visualization\nProject management",
+    "text": "Thursday\n\nData Visualization, PDFs and AI",
     "crumbs": [
       "Home"
     ]
