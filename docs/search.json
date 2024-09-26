@@ -63,6 +63,46 @@
     "text": "Tips\nThere are two ways to sort a list! One is just for display, and one sorts the list permanently. Keep an eye out for which one you’re using.\nProgrammers are weird about counting. What number do they start with?\nThere might be a magic way to get the last item of a list in Python (or to start counting from the end).\nWhen dealing with multiple numbers - population, for example - be sure to keep them all at the same level. If Brooklyn has 1.4 million people and Staten Island as 470,000, storing their population as 1.4 and 470000 isn’t going to let you compare them accurately!"
   },
   {
+    "objectID": "data-visualization.html",
+    "href": "data-visualization.html",
+    "title": "Data analysis and APIs",
+    "section": "",
+    "text": "Pandas is Python’s equivalent to Excel. According to the official documentation:",
+    "crumbs": [
+      "Data Visualization"
+    ]
+  },
+  {
+    "objectID": "data-visualization.html#code-and-data",
+    "href": "data-visualization.html#code-and-data",
+    "title": "Data analysis and APIs",
+    "section": "Code and data",
+    "text": "Code and data\n\nVisualization data\nPDF data\nMore PDFs for research",
+    "crumbs": [
+      "Data Visualization"
+    ]
+  },
+  {
+    "objectID": "data-visualization.html#slides",
+    "href": "data-visualization.html#slides",
+    "title": "Data analysis and APIs",
+    "section": "Slides",
+    "text": "Slides\n\nVisualization\nAI",
+    "crumbs": [
+      "Data Visualization"
+    ]
+  },
+  {
+    "objectID": "data-visualization.html#links",
+    "href": "data-visualization.html#links",
+    "title": "Data analysis and APIs",
+    "section": "Links",
+    "text": "Links\nData visualization\n\nDesigning Viz, data viz tips\nDatawrapper, a platform for data viz\nFlourish, a platform for data viz\n\nPDFs\n\nTabula, a great tool for extracting data from PDFs\nComparison of PDF data extraction tools\nComparison of OCR tools\n\nArtificial intelligence\n\nClaude for Sheets example sheet\nHugging Face\nAnything LLM",
+    "crumbs": [
+      "Data Visualization"
+    ]
+  },
+  {
     "objectID": "basics.html",
     "href": "basics.html",
     "title": "Python basics",
