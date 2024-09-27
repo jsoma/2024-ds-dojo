@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jsoma.github.io/2024-dojo/scraping-prompt-2.html</loc>
-    <lastmod>2024-09-25T04:41:04.034Z</lastmod>
+    <loc>https://jsoma.github.io/2024-dojo/04-everything/ColiPali_with_GPT.html</loc>
+    <lastmod>2024-09-27T02:56:29.492Z</lastmod>
   </url>
   <url>
-    <loc>https://jsoma.github.io/2024-dojo/01-python-basics/homework.html</loc>
-    <lastmod>2024-09-23T03:47:52.043Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jsoma.github.io/2024-dojo/data-visualization.html</loc>
-    <lastmod>2024-09-26T02:47:15.060Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jsoma.github.io/2024-dojo/ai.html</loc>
-    <lastmod>2024-09-21T03:27:16.496Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jsoma.github.io/2024-dojo/basics.html</loc>
-    <lastmod>2024-09-22T23:51:55.857Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jsoma.github.io/2024-dojo/index.html</loc>
-    <lastmod>2024-09-26T00:50:09.890Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jsoma.github.io/2024-dojo/pandas-and-apis.html</loc>
-    <lastmod>2024-09-25T07:06:49.147Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jsoma.github.io/2024-dojo/scraping.html</loc>
-    <lastmod>2024-09-25T07:06:01.479Z</lastmod>
+    <loc>https://jsoma.github.io/2024-dojo/scraping-prompt-1.html</loc>
+    <lastmod>2024-09-25T03:15:33.055Z</lastmod>
   </url>
   <url>
     <loc>https://jsoma.github.io/2024-dojo/project-mgmt.html</loc>
     <lastmod>2024-09-21T03:27:22.998Z</lastmod>
   </url>
   <url>
-    <loc>https://jsoma.github.io/2024-dojo/scraping-prompt-1.html</loc>
-    <lastmod>2024-09-25T03:15:33.055Z</lastmod>
+    <loc>https://jsoma.github.io/2024-dojo/scraping.html</loc>
+    <lastmod>2024-09-25T07:06:01.479Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jsoma.github.io/2024-dojo/pandas-and-apis.html</loc>
+    <lastmod>2024-09-25T07:06:49.147Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jsoma.github.io/2024-dojo/index.html</loc>
+    <lastmod>2024-09-26T00:50:09.890Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jsoma.github.io/2024-dojo/basics.html</loc>
+    <lastmod>2024-09-22T23:51:55.857Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jsoma.github.io/2024-dojo/ai.html</loc>
+    <lastmod>2024-09-21T03:27:16.496Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jsoma.github.io/2024-dojo/data-visualization.html</loc>
+    <lastmod>2024-09-27T02:58:39.937Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jsoma.github.io/2024-dojo/01-python-basics/homework.html</loc>
+    <lastmod>2024-09-23T03:47:52.043Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jsoma.github.io/2024-dojo/scraping-prompt-2.html</loc>
+    <lastmod>2024-09-25T04:41:04.034Z</lastmod>
   </url>
 </urlset>

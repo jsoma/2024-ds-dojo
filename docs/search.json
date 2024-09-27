@@ -1,306 +1,59 @@
 [
   {
-    "objectID": "scraping-prompt-2.html",
-    "href": "scraping-prompt-2.html",
-    "title": "Scraping Prompt Codegen Type",
+    "objectID": "04-everything/ColiPali_with_GPT.html",
+    "href": "04-everything/ColiPali_with_GPT.html",
+    "title": "Multimodal RAG using ColPali (with Byaldi) and GPT",
     "section": "",
-    "text": "Try this prompt in ChatGPT or Claude to put together a scraper!\nThis version uses playwright codegen"
+    "text": "Run this notebook live on Google Colab here.\n\nAlmost all of this code is adapted from this delightful notebook\n\nTraditionally, people used OCR to translate PDFs into a format that can be understood by an LLM. This causes a lot of problems with tables and diagrams, which cannot be understood with just text.\nBut now, there is a better option! ColPali is a “multimodal retriever” that processes images along with text, removing the need for OCR.\nThe process below involves two parts:\n\nIndex your document (describe what each page is about)\nPresent your question and find relevant pages\nSend your question to the AI with the relevant pages, and get an answer\n\nIn this example, the “index your documents” is done with ColiPali+Byaldi, and “get an answer” step is GPT.\n\n\nWe will install byaldi and openai using pip to get started.\n\n!pip install --upgrade --quiet openai byaldi transformers pdf2image flash-attn\n\n\n!sudo apt-get install -y poppler-utils\n\nReading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\npoppler-utils is already the newest version (22.02.0-2ubuntu0.5).\n0 upgraded, 0 newly installed, 0 to remove and 49 not upgraded.\n\n\nClick the folder icon to the right and upload your document. My document is called 12.pdf.\nLet’s look at one page of it.\n\nfrom pdf2image import convert_from_path\n\nimages = convert_from_path(\"12.pdf\")\nimages[7]\n\n\n\n\n\n\n\n\nWe should initialize RAGMultiModalModel object with a ColPali model from Hugging Face.\n\nRAG: Retrieval-augmented generation, the way to find related documents\nMultiModal: text and images\n\nThis is what we will use to see what each page of our document is about.\n\nfrom byaldi import RAGMultiModalModel\n\nRAG = RAGMultiModalModel.from_pretrained(\"vidore/colpali-v1.2\")\n\nVerbosity is set to 1 (active). Pass verbose=0 to make quieter.\n\n\n\n\n\nWe can directly index our document using RAG, simply passing pdf file path is enough.\n\nRAG.index(\n    input_path=\"12.pdf\",\n    index_name=\"image_index\", # index will be saved at index_root/index_name/\n    store_collection_with_index=False,\n    overwrite=True\n)\n\noverwrite is on. Deleting existing index image_index to build a new one.\nAdded page 1 of document 0 to index.\nAdded page 2 of document 0 to index.\nAdded page 3 of document 0 to index.\nAdded page 4 of document 0 to index.\nAdded page 5 of document 0 to index.\nAdded page 6 of document 0 to index.\nAdded page 7 of document 0 to index.\nAdded page 8 of document 0 to index.\nAdded page 9 of document 0 to index.\nAdded page 10 of document 0 to index.\nAdded page 11 of document 0 to index.\nAdded page 12 of document 0 to index.\nAdded page 13 of document 0 to index.\nAdded page 14 of document 0 to index.\nAdded page 15 of document 0 to index.\nAdded page 16 of document 0 to index.\nAdded page 17 of document 0 to index.\nAdded page 18 of document 0 to index.\nAdded page 19 of document 0 to index.\nAdded page 20 of document 0 to index.\nAdded page 21 of document 0 to index.\nAdded page 22 of document 0 to index.\nAdded page 23 of document 0 to index.\nAdded page 24 of document 0 to index.\nAdded page 25 of document 0 to index.\nAdded page 26 of document 0 to index.\nAdded page 27 of document 0 to index.\nAdded page 28 of document 0 to index.\nAdded page 29 of document 0 to index.\nAdded page 30 of document 0 to index.\nAdded page 31 of document 0 to index.\nAdded page 32 of document 0 to index.\nAdded page 33 of document 0 to index.\nAdded page 34 of document 0 to index.\nAdded page 35 of document 0 to index.\nAdded page 36 of document 0 to index.\nAdded page 37 of document 0 to index.\nAdded page 38 of document 0 to index.\nAdded page 39 of document 0 to index.\nAdded page 40 of document 0 to index.\nAdded page 41 of document 0 to index.\nAdded page 42 of document 0 to index.\nAdded page 43 of document 0 to index.\nAdded page 44 of document 0 to index.\nAdded page 45 of document 0 to index.\nAdded page 46 of document 0 to index.\nAdded page 47 of document 0 to index.\nAdded page 48 of document 0 to index.\nAdded page 49 of document 0 to index.\nAdded page 50 of document 0 to index.\nAdded page 51 of document 0 to index.\nAdded page 52 of document 0 to index.\nAdded page 53 of document 0 to index.\nAdded page 54 of document 0 to index.\nAdded page 55 of document 0 to index.\nAdded page 56 of document 0 to index.\nAdded page 57 of document 0 to index.\nAdded page 58 of document 0 to index.\nAdded page 59 of document 0 to index.\nIndex exported to .byaldi/image_index\nIndex exported to .byaldi/image_index\n\n\n{0: '12.pdf'}\n\n\nNow let’s retrieve! What are the relevant pages to our question?\n\ntext_query = \"2015年の高齢夫婦世帯数はいくらですか？\"\nresults = RAG.search(text_query, k=3)\nresults\n\n[{'doc_id': 0, 'page_num': 23, 'score': 11.5, 'metadata': {}, 'base64': None},\n {'doc_id': 0, 'page_num': 3, 'score': 11.5, 'metadata': {}, 'base64': None},\n {'doc_id': 0, 'page_num': 46, 'score': 11.4375, 'metadata': {}, 'base64': None}]\n\n\nWe can also look at the pages to see if they match where we think the answers are. First we will convert them to something we can display…\n\nfrom pdf2image import convert_from_path\nfrom io import BytesIO\nimport base64\n\ndef image_to_base64(image, format=\"JPEG\"):\n    buffered = BytesIO()\n    image.save(buffered, format=format, quality=85)  # Adjust quality if needed\n    return base64.b64encode(buffered.getvalue()).decode('utf-8')\n\nrelevant_images = []\nfor result in results:\n  # The page number we think of is not the same\n  # as the index (e.g. \"page one\" is index 0)\n  index = result['page_num'] - 1\n  image = images[index]\n\n  relevant_images.append({\n      'page_num': result['page_num'],\n      'score': result['score'],\n      'image': image,\n      'encoded_image': image_to_base64(image),\n  })\n\nlen(relevant_images)\n\n3\n\n\n…then we can display them in a nice table.\n\nfrom IPython.display import display, HTML\n\ndef display_pages(images, per_row=3):\n    grid_style = f\"\"\"\n    &lt;style&gt;\n        .image-grid {{\n            display: grid;\n            grid-template-columns: repeat({per_row}, 1fr);\n            gap: 10px;\n        }}\n        .image-grid img {{\n            max-width: 100%;\n            height: auto;\n            margin: 5px;\n        }}\n    &lt;/style&gt;\n    \"\"\"\n    header = f\"&lt;p&gt;Query: {text_query}&lt;/p&gt;\"\n    # Generating the HTML for the images\n    images_html = \"\".join([\n        f'&lt;div&gt;&lt;img src=\"data:image/jpeg;base64,{image[\"encoded_image\"]}\" /&gt;Page: {image[\"page_num\"]}&lt;br&gt;Score: {image[\"score\"]:0.2f}&lt;/div&gt;'\n        for image in images\n    ])\n\n    # Combining the grid container style and the images\n    full_html = grid_style + f\"&lt;div class='image-grid'&gt;{images_html}&lt;/div&gt;\"\n\n    display(HTML(full_html))\n\ndisplay_pages(relevant_images)\n\n\n    \n    Page: 23Score: 11.50Page: 3Score: 11.50Page: 46Score: 11.44\n\n\n\n\n\nNow we will send the pages of related content to GPT, along with our question.\nThis is the same as uploading the documents manually, except we found the “relevant pages” through programming.\n\n# Update with your API key\nAPI_KEY='YOUR API KEY GOES HERE'\n\n\nfrom openai import OpenAI\n\nclient = OpenAI(api_key=API_KEY)\n\nprompt = f\"\"\"Using the documents below, answer the\nfollowing question. Cite the page and describe/quote where\nthe answer was found, if possible: \\n\\n{text_query}\"\"\"\n\nimage_messages = [{\n    \"type\": \"image_url\",\n    \"image_url\": {\n        \"url\": f\"data:image/jpeg;base64,{image['encoded_image']}\"\n    }\n} for image in relevant_images]\n\nresponse = client.chat.completions.create(\n  model=\"gpt-4o-mini\",\n  messages=[\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\"type\": \"text\", \"text\": prompt},\n        *image_messages,\n      ],\n    }\n  ],\n  max_tokens=300,\n)\n\nanswer_text = response.choices[0].message.content\nprint(answer_text)\n\n2015年の高齢夫婦世帯数は「18,915世帯」と示されています。これは、最初のページのグラフにおいて、2015年度の数値として記載されています。具体的には、グラフの中で「2015年度」のバーが示す値です。\n\n\nIs this the corrent answer???\nYou might need to add more documents. But also! ColiPali is specifically trained on English, so will probably perform best with English documents."
   },
   {
-    "objectID": "scraping-prompt-2.html#copy-and-paste-the-prompt-below",
-    "href": "scraping-prompt-2.html#copy-and-paste-the-prompt-below",
-    "title": "Scraping Prompt Codegen Type",
+    "objectID": "04-everything/ColiPali_with_GPT.html#installation",
+    "href": "04-everything/ColiPali_with_GPT.html#installation",
+    "title": "Multimodal RAG using ColPali (with Byaldi) and GPT",
+    "section": "",
+    "text": "We will install byaldi and openai using pip to get started.\n\n!pip install --upgrade --quiet openai byaldi transformers pdf2image flash-attn\n\n\n!sudo apt-get install -y poppler-utils\n\nReading package lists... Done\nBuilding dependency tree... Done\nReading state information... Done\npoppler-utils is already the newest version (22.02.0-2ubuntu0.5).\n0 upgraded, 0 newly installed, 0 to remove and 49 not upgraded.\n\n\nClick the folder icon to the right and upload your document. My document is called 12.pdf.\nLet’s look at one page of it.\n\nfrom pdf2image import convert_from_path\n\nimages = convert_from_path(\"12.pdf\")\nimages[7]\n\n\n\n\n\n\n\n\nWe should initialize RAGMultiModalModel object with a ColPali model from Hugging Face.\n\nRAG: Retrieval-augmented generation, the way to find related documents\nMultiModal: text and images\n\nThis is what we will use to see what each page of our document is about.\n\nfrom byaldi import RAGMultiModalModel\n\nRAG = RAGMultiModalModel.from_pretrained(\"vidore/colpali-v1.2\")\n\nVerbosity is set to 1 (active). Pass verbose=0 to make quieter.\n\n\n\n\n\nWe can directly index our document using RAG, simply passing pdf file path is enough.\n\nRAG.index(\n    input_path=\"12.pdf\",\n    index_name=\"image_index\", # index will be saved at index_root/index_name/\n    store_collection_with_index=False,\n    overwrite=True\n)\n\noverwrite is on. Deleting existing index image_index to build a new one.\nAdded page 1 of document 0 to index.\nAdded page 2 of document 0 to index.\nAdded page 3 of document 0 to index.\nAdded page 4 of document 0 to index.\nAdded page 5 of document 0 to index.\nAdded page 6 of document 0 to index.\nAdded page 7 of document 0 to index.\nAdded page 8 of document 0 to index.\nAdded page 9 of document 0 to index.\nAdded page 10 of document 0 to index.\nAdded page 11 of document 0 to index.\nAdded page 12 of document 0 to index.\nAdded page 13 of document 0 to index.\nAdded page 14 of document 0 to index.\nAdded page 15 of document 0 to index.\nAdded page 16 of document 0 to index.\nAdded page 17 of document 0 to index.\nAdded page 18 of document 0 to index.\nAdded page 19 of document 0 to index.\nAdded page 20 of document 0 to index.\nAdded page 21 of document 0 to index.\nAdded page 22 of document 0 to index.\nAdded page 23 of document 0 to index.\nAdded page 24 of document 0 to index.\nAdded page 25 of document 0 to index.\nAdded page 26 of document 0 to index.\nAdded page 27 of document 0 to index.\nAdded page 28 of document 0 to index.\nAdded page 29 of document 0 to index.\nAdded page 30 of document 0 to index.\nAdded page 31 of document 0 to index.\nAdded page 32 of document 0 to index.\nAdded page 33 of document 0 to index.\nAdded page 34 of document 0 to index.\nAdded page 35 of document 0 to index.\nAdded page 36 of document 0 to index.\nAdded page 37 of document 0 to index.\nAdded page 38 of document 0 to index.\nAdded page 39 of document 0 to index.\nAdded page 40 of document 0 to index.\nAdded page 41 of document 0 to index.\nAdded page 42 of document 0 to index.\nAdded page 43 of document 0 to index.\nAdded page 44 of document 0 to index.\nAdded page 45 of document 0 to index.\nAdded page 46 of document 0 to index.\nAdded page 47 of document 0 to index.\nAdded page 48 of document 0 to index.\nAdded page 49 of document 0 to index.\nAdded page 50 of document 0 to index.\nAdded page 51 of document 0 to index.\nAdded page 52 of document 0 to index.\nAdded page 53 of document 0 to index.\nAdded page 54 of document 0 to index.\nAdded page 55 of document 0 to index.\nAdded page 56 of document 0 to index.\nAdded page 57 of document 0 to index.\nAdded page 58 of document 0 to index.\nAdded page 59 of document 0 to index.\nIndex exported to .byaldi/image_index\nIndex exported to .byaldi/image_index\n\n\n{0: '12.pdf'}\n\n\nNow let’s retrieve! What are the relevant pages to our question?\n\ntext_query = \"2015年の高齢夫婦世帯数はいくらですか？\"\nresults = RAG.search(text_query, k=3)\nresults\n\n[{'doc_id': 0, 'page_num': 23, 'score': 11.5, 'metadata': {}, 'base64': None},\n {'doc_id': 0, 'page_num': 3, 'score': 11.5, 'metadata': {}, 'base64': None},\n {'doc_id': 0, 'page_num': 46, 'score': 11.4375, 'metadata': {}, 'base64': None}]\n\n\nWe can also look at the pages to see if they match where we think the answers are. First we will convert them to something we can display…\n\nfrom pdf2image import convert_from_path\nfrom io import BytesIO\nimport base64\n\ndef image_to_base64(image, format=\"JPEG\"):\n    buffered = BytesIO()\n    image.save(buffered, format=format, quality=85)  # Adjust quality if needed\n    return base64.b64encode(buffered.getvalue()).decode('utf-8')\n\nrelevant_images = []\nfor result in results:\n  # The page number we think of is not the same\n  # as the index (e.g. \"page one\" is index 0)\n  index = result['page_num'] - 1\n  image = images[index]\n\n  relevant_images.append({\n      'page_num': result['page_num'],\n      'score': result['score'],\n      'image': image,\n      'encoded_image': image_to_base64(image),\n  })\n\nlen(relevant_images)\n\n3\n\n\n…then we can display them in a nice table.\n\nfrom IPython.display import display, HTML\n\ndef display_pages(images, per_row=3):\n    grid_style = f\"\"\"\n    &lt;style&gt;\n        .image-grid {{\n            display: grid;\n            grid-template-columns: repeat({per_row}, 1fr);\n            gap: 10px;\n        }}\n        .image-grid img {{\n            max-width: 100%;\n            height: auto;\n            margin: 5px;\n        }}\n    &lt;/style&gt;\n    \"\"\"\n    header = f\"&lt;p&gt;Query: {text_query}&lt;/p&gt;\"\n    # Generating the HTML for the images\n    images_html = \"\".join([\n        f'&lt;div&gt;&lt;img src=\"data:image/jpeg;base64,{image[\"encoded_image\"]}\" /&gt;Page: {image[\"page_num\"]}&lt;br&gt;Score: {image[\"score\"]:0.2f}&lt;/div&gt;'\n        for image in images\n    ])\n\n    # Combining the grid container style and the images\n    full_html = grid_style + f\"&lt;div class='image-grid'&gt;{images_html}&lt;/div&gt;\"\n\n    display(HTML(full_html))\n\ndisplay_pages(relevant_images)\n\n\n    \n    Page: 23Score: 11.50Page: 3Score: 11.50Page: 46Score: 11.44"
+  },
+  {
+    "objectID": "04-everything/ColiPali_with_GPT.html#get-an-answer-from-gpt",
+    "href": "04-everything/ColiPali_with_GPT.html#get-an-answer-from-gpt",
+    "title": "Multimodal RAG using ColPali (with Byaldi) and GPT",
+    "section": "",
+    "text": "Now we will send the pages of related content to GPT, along with our question.\nThis is the same as uploading the documents manually, except we found the “relevant pages” through programming.\n\n# Update with your API key\nAPI_KEY='YOUR API KEY GOES HERE'\n\n\nfrom openai import OpenAI\n\nclient = OpenAI(api_key=API_KEY)\n\nprompt = f\"\"\"Using the documents below, answer the\nfollowing question. Cite the page and describe/quote where\nthe answer was found, if possible: \\n\\n{text_query}\"\"\"\n\nimage_messages = [{\n    \"type\": \"image_url\",\n    \"image_url\": {\n        \"url\": f\"data:image/jpeg;base64,{image['encoded_image']}\"\n    }\n} for image in relevant_images]\n\nresponse = client.chat.completions.create(\n  model=\"gpt-4o-mini\",\n  messages=[\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\"type\": \"text\", \"text\": prompt},\n        *image_messages,\n      ],\n    }\n  ],\n  max_tokens=300,\n)\n\nanswer_text = response.choices[0].message.content\nprint(answer_text)\n\n2015年の高齢夫婦世帯数は「18,915世帯」と示されています。これは、最初のページのグラフにおいて、2015年度の数値として記載されています。具体的には、グラフの中で「2015年度」のバーが示す値です。\n\n\nIs this the corrent answer???\nYou might need to add more documents. But also! ColiPali is specifically trained on English, so will probably perform best with English documents."
+  },
+  {
+    "objectID": "scraping-prompt-1.html",
+    "href": "scraping-prompt-1.html",
+    "title": "Scraping Prompt Without Codegen",
+    "section": "",
+    "text": "Try this prompt in ChatGPT or Claude to put together a scraper!\nThis version do NOT use playwright codegen"
+  },
+  {
+    "objectID": "scraping-prompt-1.html#but-first-windows-people",
+    "href": "scraping-prompt-1.html#but-first-windows-people",
+    "title": "Scraping Prompt Without Codegen",
+    "section": "But first: WINDOWS PEOPLE",
+    "text": "But first: WINDOWS PEOPLE\nWindows and Playwright don’t get along very well, so first we’ll use this code to install a very specific version of some software to make things work.\n%%python -m pip install --quiet \"ipykernel==6.28.0\"\nget_ipython().kernel.do_shutdown(restart=True)\nChatGPT doesn’t always remind you to use it, but be sure to put it in the first cell!"
+  },
+  {
+    "objectID": "scraping-prompt-1.html#an-example",
+    "href": "scraping-prompt-1.html#an-example",
+    "title": "Scraping Prompt Without Codegen",
+    "section": "An example?",
+    "text": "An example?\nIf you’d like to try a sample website, search for Apraisal Companies at https://ia-plb.my.site.com/LicenseSearchPage"
+  },
+  {
+    "objectID": "scraping-prompt-1.html#the-second-prompt",
+    "href": "scraping-prompt-1.html#the-second-prompt",
+    "title": "Scraping Prompt Without Codegen",
+    "section": "The second prompt",
+    "text": "The second prompt\nThe prompt below usually gives imperfect results. After this prompt gives its final code, add a follow-up to get better code:\nRemember my important notes!\n- Use async playwright with async/await\n- Do NOT use asyncio\n- Flatten the code to not use functions, so the data and df are available in other cells\n\nWe are just testing this now. Have it scrape a maximum of 5 pages."
+  },
+  {
+    "objectID": "scraping-prompt-1.html#copy-and-paste-the-prompt-below",
+    "href": "scraping-prompt-1.html#copy-and-paste-the-prompt-below",
+    "title": "Scraping Prompt Without Codegen",
     "section": "Copy and paste the prompt below",
-    "text": "Copy and paste the prompt below\nI have the following guide about scraping a website. Please adapt it to be for how to scrape a different website. Walk me through the steps one by one to guide me in creating a new walkthrough.\n\nProceed in several steps, ONE AT A TIME. Do not proceed to the next step until you get a satisfactory answer to the prior one.\n\n1. Ask me to run `!playwright codegen` and visit and use the web site I want to scrape. I should use any forms or click \"next page\" buttons that will be needed later. Ask me for the **Library Async** code created by codegen.\n2. Ask for the HTML that I should scrape for each row of data\n3. Confirm pagination details\n\nIf I fill out a form for searching, you may need to get the HTML for the entire form or parts of the form. If necessary use a similar walkthrough as below to understand the HTML. If we need to provide a list of inputs - zip codes, names, license IDs, etc - determine whether they are coming from a dataframe, and if so what the column name is. Be sure you know how to submit the form.\n\nTo confirm row data details, walk me through how to copy the outer HTML of one \"row\" of data. I'm new to scraping and might need help. Decide on columns to be saved, then confirm them with me. If it isn't clear, explain what you need from me.\n\nHelp me determine the pagination situation. Are there multiple pages of content? Is there a 'next page' button that can be pressed again and again? Do you need to click an incrementing number of pages? Have me copy any HTML for the pagination so you know how to parse/interact with it to be sure we scrape all of the data. Ask if infinite scroll is necessary.\n\n## Important Notes: \n\n- You MUST use async playwright\n- Do NOT use asyncio and do NOT wrap everything in an async function.\n- If displaying a dataframe, do NOT use print or ace_tools, just use df.head()\n- The sample tutorial reads a table with pd.read_html. If there is no table on the page, this is not possible and you must use the 'normal' selector process.\n- To protect against missing data, create the DataFrame from a list of dictionaries, not a dictionary of lists. Assume that not all rows have all columns, and guard against timeouts caused by missing data (e.g. some elements might not have a description).\n- If it is a multi-page scraper, provide code to test whether the scraper works on one page of data before jumping into the full process. Ask whether I am satisfied with the result before proceeding.\n- Be resilient against errors when scraping, printing details on failures to help debugging\n- You do NOT need to close the browser. We can figure that out ourselves.\n- Provide complete code\n- The site might be slow or I might have bad internet, set all timeouts to be 10 seconds at a minimum\n- To do the actual extraction, use Playwright's wait_for to assure the elements are on the page then await page.contents() with BeautifulSoup\n- Do NOT use a main function, just make code as \"flat\" as possible\n\nGUIDE:\n\n## Installation\n\nWe need to install a few tools first! Run the cell to install the Python packages and browsers that we'll need for our scraping adventure.\n\n```\n%%python -m pip install lxml html5lib beautifulsoup4 pandas\n%%python -m pip install --quiet playwright\n!playwright install\n```\n\n## Opening up the browser and visiting our destination\n\nNote that we will NOT use asyncio or sync_playwright in the example below. We also do NOT wrap our code in a big async function.\n\n```\nfrom playwright.async_api import async_playwright\n\n# \"Hey, open up a browser\"\nplaywright = await async_playwright().start()\nbrowser = await playwright.chromium.launch(headless=False)\n\n# Create a new browser window\npage = await browser.new_page()\nawait page.goto(\"https://newjersey.mylicense.com/verification/Search.aspx\")\n```\n\n## Selecting an option from a dropdown\n\nYou always start with await page.locator(\"select\").select_option(\"whatever option you want\"). You'll probably get an error because there are multiple dropdowns on the page, but Playwright doesn't know which one you want to use! Just read the error and figure out the right one.\n\n```\n# await page.locator(\"select\").select_option(\"Acupuncture\")\nawait page.locator(\"#t_web_lookup__profession_name\").select_option(\"Perfusionist\")\n```\n\nClick the submit button.\n\n```\n# await page.get_by_text(\"Search\").click()\nawait page.get_by_role(\"button\", name=\"Search\").click()\n```\n\n## Grab the tables from the page\n\nPandas is the Python equivalent to Excel, and it's great at dealing with tabular data! Often the data on a web page that looks like a spreadsheet can be read with pd.read_html.\n\nYou use await page.content() to save the contents of the page, then feed it to read_html to find the tables. len(tables) checks the number of tables you have, then you manually poke around to see which one is the one you're interested in. tables[0] is the first one, tables[1] is the second one, and so on...\n\n```\nimport pandas as pd\nfrom io import StringIO\n\nhtml = await page.content()\ntables = pd.read_html(StringIO(html))\nlen(tables)\ntables[0]\n```\n\n## Clicking \"next page\" one\n\nJust like using a dropdown, select box or button, we'll use page.get_by_text to try to select the button.\n\nWe add timeout=10000 to wait 5 seconds before confirming it isn't there.\n\n```\n# page.get_by_text(\"Next Page\").click()\nawait page.locator(\"a:has-text('Next Page')\").click(timeout=10000)\n```\n\n## Clicking \"next page\" until it disappears\n\nEventually the \"next page\" link disappears, and Python starts screaming. We use try/except down below to say \"don't worry little baby, it's okay, we'll just finish up if the button is gone.\"\n\n```\n# all of our data will end up going here\nall_data = pd.DataFrame()\n\nwhile True:\n    await page.wait_for_selector(\"table\")\n\n    # Get all of the tables on the page\n    html = await page.content()\n    tables = pd.read_html(StringIO(html))\n\n    # Get the table (and edit if necessary)\n    df = tables[0]\n\n    # Add the tables on this page to the big list of stuff\n    all_data = pd.concat([all_data, df], ignore_index = True)\n    try:\n        await page.locator(\"a:has-text('Next Page')\").click(timeout=5000)\n    except:\n        break\nall_data\n```\n\n## Saving the results\n\nNow we'll save it to a CSV file! Easy peasy.\n\n```\nall_data.to_csv(\"output.csv\", index=False)\n```"
-  },
-  {
-    "objectID": "01-python-basics/homework.html",
-    "href": "01-python-basics/homework.html",
-    "title": "Python Fundamentals homework",
-    "section": "",
-    "text": "Please take the data sources survey here. It will help me know what kind of data or products to focus on."
-  },
-  {
-    "objectID": "01-python-basics/homework.html#setup",
-    "href": "01-python-basics/homework.html#setup",
-    "title": "Python Fundamentals homework",
-    "section": "Setup",
-    "text": "Setup\nPlease create a new notebook named ‘First Homework’.\nTurn the first cell into a Markdown cell and add:\n\nThe first line should be your full name\nThe second line should be the date\nThe third line should be “Homework: Basic Python”\n\nThey should be displayed as a list, with the little bullet points on the left. You can look at what we did in class, check this reference sheet, or even ask ChatGPT."
-  },
-  {
-    "objectID": "01-python-basics/homework.html#assignment",
-    "href": "01-python-basics/homework.html#assignment",
-    "title": "Python Fundamentals homework",
-    "section": "Assignment",
-    "text": "Assignment\nWhen run from top to bottom, this notebook should prompt the user for their year of birth, and display the information below. Use complete sentences (don’t just print the answer), and it’s okay for calculations to be approximate.\nThe first cell should use input to prompt the user for their year of birth. The second cell should do all of the rest.\n\nHow old the user is\nIn that time, how many times the user’s heart has beaten.\nIn that time, how many times a blue whale’s heart has beaten.\nIn that time, how many times a rabbit’s heart has beaten. If the answer to rabbit heartbeats is more than a billion, say “XXX billion” instead of the very long raw number\nThere are several ways to calculate and format/display numbers in Python – string addition, f-strings, commas, etc etc etc. Redo one of the above questions above with another technique and briefly explain the pros and cons of each approach.\nWhether they are the same age as you, older or younger\nIf older or younger, how many years difference\nIf they were born in an even or odd year\nHow many prime ministers have been in office since the user was born\nIf someone says they were born in the future, ask them for their year of birth again. Assume they’ll do it right the second time."
-  },
-  {
-    "objectID": "01-python-basics/homework.html#hints-and-tips",
-    "href": "01-python-basics/homework.html#hints-and-tips",
-    "title": "Python Fundamentals homework",
-    "section": "Hints and tips",
-    "text": "Hints and tips\n\nIf you use ChatGPT to help with this assignment, think about the tradeoffs between the learning process vs the process of having something completed. We’ll talk more about that tomorrow!\n\nTo review the basics of Python, visit the Little Columns tutorial\nWhen you ask a user for information, Python always saves it as a string. But a year as a string isn’t very useful! You’ll need to convert it to an integer before you do anything to it (there might be some tips in the tutorial to help you with that).\nHow fast does a blue whale’s heart beat? I don’t know, I’m not a biologist - research it!\nBefore you write out a solution as code, write out what you want to do in words (a comment would be good for this). Breaking down the steps as “real” text can do a lot to help you organize your Python code.\nXXX billion will involve either division, rounding, or converting to an integer.\nYou might need to know about…\n\nmultiple comparisons in if\nadding one to variables (incrementing)\nelse/elif\nmodulo (for the even/odd one)\n\nAnything not covered in the tutorial probably exists somewhere on the internet, or through ChatGPT!"
-  },
-  {
-    "objectID": "01-python-basics/homework.html#lists",
-    "href": "01-python-basics/homework.html#lists",
-    "title": "Python Fundamentals homework",
-    "section": "Lists",
-    "text": "Lists\n\nMake a list of the following numbers: 22, 90, 0, -10, 3, 22, and 48\nDisplay the number of elements in the list.\nDisplay the 4th element of this list.\nDisplay the sum of the 2nd and 4th element of the list.\nDisplay the 2nd-largest value in the list.\nDisplay the last element of the original unsorted list\nDisplay the sum of all of the numbers divided by two.\nPrint whether the median or the mean of the numbers is higher"
-  },
-  {
-    "objectID": "01-python-basics/homework.html#dictionaries",
-    "href": "01-python-basics/homework.html#dictionaries",
-    "title": "Python Fundamentals homework",
-    "section": "Dictionaries",
-    "text": "Dictionaries\n\nSometimes dictionaries are used to describe multiple aspects of a single object. Like, say, a movie. Define a dictionary called movie that works with the following code.\n\nprint(\"My favorite movie is\", movie['title'], \"which was released in\", movie['year'], \"and was directed by\", movie['director'])\n\nOn the lines after that, add keys to the movie dictionary for budget and revenue (you’ll use code like movie['budget'] = 1000), and print out the difference between the two.\nIf the movie cost more to make than it made in theaters, print “That was a bad investment”. If the film’s revenue was more than five times the amount it cost to make, print “That was a great investment.” Otherwise print “That was an okay investment.”\nSometimes dictionaries are used to describe the same aspects of many different objects. Make ONE dictionary that describes the population of the boroughs of NYC. Manhattan has 1.6 million residents, Brooklyn has 2.6m, Bronx has 1.4m, Queens has 2.3m and Staten Island has 470,000. (Tip: keeping it all in either millions or thousands is a good idea)\nDisplay the population of Brooklyn.\nDisplay the combined population of all five boroughs.\nDisplay what percent of NYC’s population lives in Manhattan."
-  },
-  {
-    "objectID": "01-python-basics/homework.html#tips",
-    "href": "01-python-basics/homework.html#tips",
-    "title": "Python Fundamentals homework",
-    "section": "Tips",
-    "text": "Tips\nThere are two ways to sort a list! One is just for display, and one sorts the list permanently. Keep an eye out for which one you’re using.\nProgrammers are weird about counting. What number do they start with?\nThere might be a magic way to get the last item of a list in Python (or to start counting from the end).\nWhen dealing with multiple numbers - population, for example - be sure to keep them all at the same level. If Brooklyn has 1.4 million people and Staten Island as 470,000, storing their population as 1.4 and 470000 isn’t going to let you compare them accurately!"
-  },
-  {
-    "objectID": "data-visualization.html",
-    "href": "data-visualization.html",
-    "title": "Data Visualization, PDFs and AI",
-    "section": "",
-    "text": "Please download these files:\n\nVisualization data\nPDF data\nMore PDFs for research\n\n\n\n\n\nVisualization\nAI\n\n\n\n\nData visualization\n\nSites to review: Feltron Report and Dear Data\nDesigning Viz, data viz tips\nDatawrapper, a platform for data viz\nDatawrapper Academy, a series of great tutorials for how to use Datawrapper\nFlourish, a platform for data viz\n\nPDFs\n\nTabula, a great tool for extracting data from PDFs\nComparison of PDF data extraction tools\nComparison of OCR tools\n\nArtificial intelligence\n\nClaude for Sheets example sheet\nHugging Face\nAnything LLM",
-    "crumbs": [
-      "Data Visualization"
-    ]
-  },
-  {
-    "objectID": "data-visualization.html#code-and-data",
-    "href": "data-visualization.html#code-and-data",
-    "title": "Data Visualization, PDFs and AI",
-    "section": "",
-    "text": "Please download these files:\n\nVisualization data\nPDF data\nMore PDFs for research",
-    "crumbs": [
-      "Data Visualization"
-    ]
-  },
-  {
-    "objectID": "data-visualization.html#slides",
-    "href": "data-visualization.html#slides",
-    "title": "Data Visualization, PDFs and AI",
-    "section": "",
-    "text": "Visualization\nAI",
-    "crumbs": [
-      "Data Visualization"
-    ]
-  },
-  {
-    "objectID": "data-visualization.html#links",
-    "href": "data-visualization.html#links",
-    "title": "Data Visualization, PDFs and AI",
-    "section": "",
-    "text": "Data visualization\n\nSites to review: Feltron Report and Dear Data\nDesigning Viz, data viz tips\nDatawrapper, a platform for data viz\nDatawrapper Academy, a series of great tutorials for how to use Datawrapper\nFlourish, a platform for data viz\n\nPDFs\n\nTabula, a great tool for extracting data from PDFs\nComparison of PDF data extraction tools\nComparison of OCR tools\n\nArtificial intelligence\n\nClaude for Sheets example sheet\nHugging Face\nAnything LLM",
-    "crumbs": [
-      "Data Visualization"
-    ]
-  },
-  {
-    "objectID": "basics.html",
-    "href": "basics.html",
-    "title": "Python basics",
-    "section": "",
-    "text": "There are many, many ways to set up and run Python. Maybe you’ll do it piece by piece yourself, or use plug-and-play with Anaconda, or stick to the cloud with Google Colab\nWe’re going to be using JupyterLab Desktop.\nTo find instructions on using JupyterLab Desktop, check the class slides",
-    "crumbs": [
-      "Python basics"
-    ]
-  },
-  {
-    "objectID": "basics.html#in-class",
-    "href": "basics.html#in-class",
-    "title": "Python basics",
-    "section": "In-class",
-    "text": "In-class\nWelcome survey\nClass slides",
-    "crumbs": [
-      "Python basics"
-    ]
-  },
-  {
-    "objectID": "basics.html#completed-work",
-    "href": "basics.html#completed-work",
-    "title": "Python basics",
-    "section": "Completed work",
-    "text": "Completed work\nCompleted notebooks will be posted after class.",
-    "crumbs": [
-      "Python basics"
-    ]
-  },
-  {
-    "objectID": "basics.html#additional-links",
-    "href": "basics.html#additional-links",
-    "title": "Python basics",
-    "section": "Additional links",
-    "text": "Additional links\n\nPython’s Not (Just) For Unicorns, an introduction to Python",
-    "crumbs": [
-      "Python basics"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "データサイエンティストDOJO 2024",
-    "section": "",
-    "text": "Find this page at bit.ly/ds-dojo-2024",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#monday",
-    "href": "index.html#monday",
-    "title": "データサイエンティストDOJO 2024",
-    "section": "Monday",
-    "text": "Monday\n\nIntroduction and Python basics",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#tuesday",
-    "href": "index.html#tuesday",
-    "title": "データサイエンティストDOJO 2024",
-    "section": "Tuesday",
-    "text": "Tuesday\n\nData analysis (pandas) and APIs",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#wednesday",
-    "href": "index.html#wednesday",
-    "title": "データサイエンティストDOJO 2024",
-    "section": "Wednesday",
-    "text": "Wednesday\n\nScraping and more pandas",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#thursday",
-    "href": "index.html#thursday",
-    "title": "データサイエンティストDOJO 2024",
-    "section": "Thursday",
-    "text": "Thursday\n\nData Visualization, PDFs and AI",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#friday",
-    "href": "index.html#friday",
-    "title": "データサイエンティストDOJO 2024",
-    "section": "Friday",
-    "text": "Friday\nTroubleshooting and project work time",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#monday-1",
-    "href": "index.html#monday-1",
-    "title": "データサイエンティストDOJO 2024",
-    "section": "Monday",
-    "text": "Monday\nProject presentations",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "pandas-and-apis.html",
-    "href": "pandas-and-apis.html",
-    "title": "Data analysis and APIs",
-    "section": "",
-    "text": "Pandas is Python’s equivalent to Excel. According to the official documentation:",
-    "crumbs": [
-      "Data analysis and APIs"
-    ]
-  },
-  {
-    "objectID": "pandas-and-apis.html#code-and-data",
-    "href": "pandas-and-apis.html#code-and-data",
-    "title": "Data analysis and APIs",
-    "section": "Code and data",
-    "text": "Code and data\nCopy these files somewhere you can find (your Desktop, maybe). Then right-click, extract to get the files inside.\n\nDownload pandas-worksheets.zip here\nDownload api-worksheets.zip here\n\nIf you’d rather just watch and listen instead of type, each notebook has a COMPLETED version. It has my code already.",
-    "crumbs": [
-      "Data analysis and APIs"
-    ]
-  },
-  {
-    "objectID": "pandas-and-apis.html#slides",
-    "href": "pandas-and-apis.html#slides",
-    "title": "Data analysis and APIs",
-    "section": "Slides",
-    "text": "Slides\nStructured data slides",
-    "crumbs": [
-      "Data analysis and APIs"
-    ]
-  },
-  {
-    "objectID": "pandas-and-apis.html#homework",
-    "href": "pandas-and-apis.html#homework",
-    "title": "Data analysis and APIs",
-    "section": "Homework",
-    "text": "Homework\n\npandas homework (There is a LOT of it! Don’t worry about finishing it all, even one notebook is good)\napi homework - answer keys",
-    "crumbs": [
-      "Data analysis and APIs"
-    ]
-  },
-  {
-    "objectID": "pandas-and-apis.html#setup",
-    "href": "pandas-and-apis.html#setup",
-    "title": "Data analysis and APIs",
-    "section": "Setup",
-    "text": "Setup\nPandas is installed using pip. You can run the code below in a Jupyterlab Desktop notebook cell:\n%pip install pandas\nTo use pandas you need to be running a Jupyter Notebook.",
-    "crumbs": [
-      "Data analysis and APIs"
-    ]
-  },
-  {
-    "objectID": "pandas-and-apis.html#completed-work",
-    "href": "pandas-and-apis.html#completed-work",
-    "title": "Data analysis and APIs",
-    "section": "Completed work",
-    "text": "Completed work\nCompleted notebooks will be posted after class.",
-    "crumbs": [
-      "Data analysis and APIs"
-    ]
-  },
-  {
-    "objectID": "pandas-and-apis.html#additional-links",
-    "href": "pandas-and-apis.html#additional-links",
-    "title": "Data analysis and APIs",
-    "section": "Additional links",
-    "text": "Additional links\n\nReal-world data analysis with pandas and Python, a video series I produced within the past few years\nFirst Python Notebook, a Jupyter/pandas tutorial by data journalist Ben Welsh\nInspect Element, a series of tutorials about Undocumented APIs\nUsing paginated APIs with Python (four ways!), a video from me about going through APIs that have multiple pages of results",
-    "crumbs": [
-      "Data analysis and APIs"
-    ]
-  },
-  {
-    "objectID": "pandas-and-apis.html#pandas",
-    "href": "pandas-and-apis.html#pandas",
-    "title": "Data analysis and APIs",
-    "section": "Pandas",
-    "text": "Pandas\nWhen asking questions to your AI tool, it is usually useful to give an example of your data. You can automatically copy part of your dataframe to the clipboard with the code below\ndf.sample(5).to_clipboard()\nI have a dataframe that looks like the below. I want to _____.\n\n(paste sample of dataframe)\n\nIt can sometimes be useful to ask “is there a simpler approach?” after you ask a question like the below.",
-    "crumbs": [
-      "Data analysis and APIs"
-    ]
-  },
-  {
-    "objectID": "pandas-and-apis.html#apis",
-    "href": "pandas-and-apis.html#apis",
-    "title": "Data analysis and APIs",
-    "section": "APIs",
-    "text": "APIs\nYou can get a description of the structure of your data like this:\ndef describe_data(data):\n    if isinstance(data, dict):\n        return {key: describe_data(value) for key, value in data.items()}\n    elif isinstance(data, list) and data:\n        return [describe_data(data[0])]\n    else:\n        return type(data)\n\ndescribe_data(data)\nThis prompt is a little more complicated, because usually ChatGPT tries to do something too crazy. Feel free to adjust the prompt until it works for you.\nI have API output that is a python dictionary, saved as data. The data structure is described as below. Provide code to convert the data into a dataframe of **______**. This probably just means pd.json_normalize with the appropriate key. Don't use meta. If you need to ask clarifying questions about the data itself, provide code snippets I can run to help answer them. You don't need to use print since I'm in a Jupyter notebook. Use functions only if absolutely necessary.\n\n(paste description of data)",
-    "crumbs": [
-      "Data analysis and APIs"
-    ]
+    "text": "Copy and paste the prompt below\nI have the following guide about scraping a website. Please adapt it to be for how to scrape a different website.\n\nProceed in several steps, ONE AT A TIME. Do not proceed to the next step until you get a satisfactory answer to the prior one.\n\n1. Ask what the URL is\n2. Ask if there are any forms or fields to be filled out. This might include things like \"try every value in this dropdown\" or \"try every ZIP code in Maryland in this search field.\" \n3. Confirm the data that needs to be scraped from the page\n4. Confirm pagination details\n5. Write the guide\n\nIf there is a form that needs to be filled out, you may need to get the HTML for the entire form or parts of the form. If necessary a similar walkthrough as below to understand the HTML. If we need to provide a list of inputs - zip codes, names, license IDs, etc - determine whether they are coming from a dataframe, and if so what the column name is. Be sure you know how to submit the form.\n\nTo confirm columns details, walk me through how to copy the outer HTML of one \"row\" of data. I'm new to scraping and might need help. Decide on columns to be saved, then confirm them with me. If it isn't clear, explain what you need from me.\n\nHelp me determine the pagination situation. Are there multiple pages of content? Is there a 'next page' button that can be pressed again and again? Do you need to click an incrementing number of pages? Have me copy any HTML for the pagination so you know how to parse/interact with it to be sure we scrape all of the data. Ask if infinite scroll is necessary.\n\n## Important Notes: \n\n- You MUST use async playwright\n- Do NOT use asyncio and do NOT wrap everything in an async function.\n- If displaying a dataframe, do NOT use print or ace_tools, just use df.head()\n- The sample tutorial reads a table with pd.read_html. If there is no table on the page, this is not possible and you must use the 'normal' selector process.\n- To protect against missing data, create the DataFrame from a list of dictionaries, not a dictionary of lists. Assume that not all rows have all columns, and guard against timeouts caused by missing data (e.g. some elements might not have a description).\n- If it is a multi-page scraper, provide code to test whether the scraper works on one page of data before jumping into the full process. Ask whether I am satisfied with the result before proceeding.\n- Be resilient against errors when scraping, printing details on failures to help debugging\n- You do NOT need to close the browser. We can figure that out ourselves.\n- Provide complete code\n- The site might be slow or I might have bad internet, set all timeouts to be 10 seconds at a minimum\n- To do the actual extraction, use Playwright's wait_for to assure the elements are on the page then await page.contents() with BeautifulSoup\n\nGUIDE:\n\n## Installation\n\nWe need to install a few tools first! Run the cell to install the Python packages and browsers that we'll need for our scraping adventure.\n\n```\n%%python -m pip install lxml html5lib beautifulsoup4 pandas\n%%python -m pip install --quiet playwright\n!playwright install\n```\n\n## Opening up the browser and visiting our destination\n\nNote that we will NOT use asyncio or sync_playwright in the example below. We also do NOT wrap our code in a big async function.\n\n```\nfrom playwright.async_api import async_playwright\n\n# \"Hey, open up a browser\"\nplaywright = await async_playwright().start()\nbrowser = await playwright.chromium.launch(headless=False)\n\n# Create a new browser window\npage = await browser.new_page()\nawait page.goto(\"https://newjersey.mylicense.com/verification/Search.aspx\")\n```\n\n## Selecting an option from a dropdown\n\nYou always start with await page.locator(\"select\").select_option(\"whatever option you want\"). You'll probably get an error because there are multiple dropdowns on the page, but Playwright doesn't know which one you want to use! Just read the error and figure out the right one.\n\n```\n# await page.locator(\"select\").select_option(\"Acupuncture\")\nawait page.locator(\"#t_web_lookup__profession_name\").select_option(\"Perfusionist\")\n```\n\nClick the submit button.\n\n```\n# await page.get_by_text(\"Search\").click()\nawait page.get_by_role(\"button\", name=\"Search\").click()\n```\n\n## Grab the tables from the page\n\nPandas is the Python equivalent to Excel, and it's great at dealing with tabular data! Often the data on a web page that looks like a spreadsheet can be read with pd.read_html.\n\nYou use await page.content() to save the contents of the page, then feed it to read_html to find the tables. len(tables) checks the number of tables you have, then you manually poke around to see which one is the one you're interested in. tables[0] is the first one, tables[1] is the second one, and so on...\n\n```\nimport pandas as pd\nfrom io import StringIO\n\nhtml = await page.content()\ntables = pd.read_html(StringIO(html))\nlen(tables)\ntables[0]\n```\n\n## Clicking \"next page\" one\n\nJust like using a dropdown, select box or button, we'll use page.get_by_text to try to select the button.\n\nWe add timeout=10000 to wait 5 seconds before confirming it isn't there.\n\n```\n# page.get_by_text(\"Next Page\").click()\nawait page.locator(\"a:has-text('Next Page')\").click(timeout=10000)\n```\n\n## Clicking \"next page\" until it disappears\n\nEventually the \"next page\" link disappears, and Python starts screaming. We use try/except down below to say \"don't worry little baby, it's okay, we'll just finish up if the button is gone.\"\n\n```\n# all of our data will end up going here\nall_data = pd.DataFrame()\n\nwhile True:\n    await page.wait_for_selector(\"table\")\n\n    # Get all of the tables on the page\n    html = await page.content()\n    tables = pd.read_html(StringIO(html))\n\n    # Get the table (and edit if necessary)\n    df = tables[0]\n\n    # Add the tables on this page to the big list of stuff\n    all_data = pd.concat([all_data, df], ignore_index = True)\n    try:\n        await page.locator(\"a:has-text('Next Page')\").click(timeout=5000)\n    except:\n        break\nall_data\n```\n\n## Saving the results\n\nNow we'll save it to a CSV file! Easy peasy.\n\n```\nall_data.to_csv(\"output.csv\", index=False)\n```"
   },
   {
     "objectID": "scraping.html",
@@ -433,38 +186,306 @@
     ]
   },
   {
-    "objectID": "scraping-prompt-1.html",
-    "href": "scraping-prompt-1.html",
-    "title": "Scraping Prompt Without Codegen",
+    "objectID": "pandas-and-apis.html",
+    "href": "pandas-and-apis.html",
+    "title": "Data analysis and APIs",
     "section": "",
-    "text": "Try this prompt in ChatGPT or Claude to put together a scraper!\nThis version do NOT use playwright codegen"
+    "text": "Pandas is Python’s equivalent to Excel. According to the official documentation:",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
   },
   {
-    "objectID": "scraping-prompt-1.html#but-first-windows-people",
-    "href": "scraping-prompt-1.html#but-first-windows-people",
-    "title": "Scraping Prompt Without Codegen",
-    "section": "But first: WINDOWS PEOPLE",
-    "text": "But first: WINDOWS PEOPLE\nWindows and Playwright don’t get along very well, so first we’ll use this code to install a very specific version of some software to make things work.\n%%python -m pip install --quiet \"ipykernel==6.28.0\"\nget_ipython().kernel.do_shutdown(restart=True)\nChatGPT doesn’t always remind you to use it, but be sure to put it in the first cell!"
+    "objectID": "pandas-and-apis.html#code-and-data",
+    "href": "pandas-and-apis.html#code-and-data",
+    "title": "Data analysis and APIs",
+    "section": "Code and data",
+    "text": "Code and data\nCopy these files somewhere you can find (your Desktop, maybe). Then right-click, extract to get the files inside.\n\nDownload pandas-worksheets.zip here\nDownload api-worksheets.zip here\n\nIf you’d rather just watch and listen instead of type, each notebook has a COMPLETED version. It has my code already.",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
   },
   {
-    "objectID": "scraping-prompt-1.html#an-example",
-    "href": "scraping-prompt-1.html#an-example",
-    "title": "Scraping Prompt Without Codegen",
-    "section": "An example?",
-    "text": "An example?\nIf you’d like to try a sample website, search for Apraisal Companies at https://ia-plb.my.site.com/LicenseSearchPage"
+    "objectID": "pandas-and-apis.html#slides",
+    "href": "pandas-and-apis.html#slides",
+    "title": "Data analysis and APIs",
+    "section": "Slides",
+    "text": "Slides\nStructured data slides",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
   },
   {
-    "objectID": "scraping-prompt-1.html#the-second-prompt",
-    "href": "scraping-prompt-1.html#the-second-prompt",
-    "title": "Scraping Prompt Without Codegen",
-    "section": "The second prompt",
-    "text": "The second prompt\nThe prompt below usually gives imperfect results. After this prompt gives its final code, add a follow-up to get better code:\nRemember my important notes!\n- Use async playwright with async/await\n- Do NOT use asyncio\n- Flatten the code to not use functions, so the data and df are available in other cells\n\nWe are just testing this now. Have it scrape a maximum of 5 pages."
+    "objectID": "pandas-and-apis.html#homework",
+    "href": "pandas-and-apis.html#homework",
+    "title": "Data analysis and APIs",
+    "section": "Homework",
+    "text": "Homework\n\npandas homework (There is a LOT of it! Don’t worry about finishing it all, even one notebook is good)\napi homework - answer keys",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
   },
   {
-    "objectID": "scraping-prompt-1.html#copy-and-paste-the-prompt-below",
-    "href": "scraping-prompt-1.html#copy-and-paste-the-prompt-below",
-    "title": "Scraping Prompt Without Codegen",
+    "objectID": "pandas-and-apis.html#setup",
+    "href": "pandas-and-apis.html#setup",
+    "title": "Data analysis and APIs",
+    "section": "Setup",
+    "text": "Setup\nPandas is installed using pip. You can run the code below in a Jupyterlab Desktop notebook cell:\n%pip install pandas\nTo use pandas you need to be running a Jupyter Notebook.",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "pandas-and-apis.html#completed-work",
+    "href": "pandas-and-apis.html#completed-work",
+    "title": "Data analysis and APIs",
+    "section": "Completed work",
+    "text": "Completed work\nCompleted notebooks will be posted after class.",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "pandas-and-apis.html#additional-links",
+    "href": "pandas-and-apis.html#additional-links",
+    "title": "Data analysis and APIs",
+    "section": "Additional links",
+    "text": "Additional links\n\nReal-world data analysis with pandas and Python, a video series I produced within the past few years\nFirst Python Notebook, a Jupyter/pandas tutorial by data journalist Ben Welsh\nInspect Element, a series of tutorials about Undocumented APIs\nUsing paginated APIs with Python (four ways!), a video from me about going through APIs that have multiple pages of results",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "pandas-and-apis.html#pandas",
+    "href": "pandas-and-apis.html#pandas",
+    "title": "Data analysis and APIs",
+    "section": "Pandas",
+    "text": "Pandas\nWhen asking questions to your AI tool, it is usually useful to give an example of your data. You can automatically copy part of your dataframe to the clipboard with the code below\ndf.sample(5).to_clipboard()\nI have a dataframe that looks like the below. I want to _____.\n\n(paste sample of dataframe)\n\nIt can sometimes be useful to ask “is there a simpler approach?” after you ask a question like the below.",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "pandas-and-apis.html#apis",
+    "href": "pandas-and-apis.html#apis",
+    "title": "Data analysis and APIs",
+    "section": "APIs",
+    "text": "APIs\nYou can get a description of the structure of your data like this:\ndef describe_data(data):\n    if isinstance(data, dict):\n        return {key: describe_data(value) for key, value in data.items()}\n    elif isinstance(data, list) and data:\n        return [describe_data(data[0])]\n    else:\n        return type(data)\n\ndescribe_data(data)\nThis prompt is a little more complicated, because usually ChatGPT tries to do something too crazy. Feel free to adjust the prompt until it works for you.\nI have API output that is a python dictionary, saved as data. The data structure is described as below. Provide code to convert the data into a dataframe of **______**. This probably just means pd.json_normalize with the appropriate key. Don't use meta. If you need to ask clarifying questions about the data itself, provide code snippets I can run to help answer them. You don't need to use print since I'm in a Jupyter notebook. Use functions only if absolutely necessary.\n\n(paste description of data)",
+    "crumbs": [
+      "Data analysis and APIs"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "データサイエンティストDOJO 2024",
+    "section": "",
+    "text": "Find this page at bit.ly/ds-dojo-2024",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#monday",
+    "href": "index.html#monday",
+    "title": "データサイエンティストDOJO 2024",
+    "section": "Monday",
+    "text": "Monday\n\nIntroduction and Python basics",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#tuesday",
+    "href": "index.html#tuesday",
+    "title": "データサイエンティストDOJO 2024",
+    "section": "Tuesday",
+    "text": "Tuesday\n\nData analysis (pandas) and APIs",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#wednesday",
+    "href": "index.html#wednesday",
+    "title": "データサイエンティストDOJO 2024",
+    "section": "Wednesday",
+    "text": "Wednesday\n\nScraping and more pandas",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#thursday",
+    "href": "index.html#thursday",
+    "title": "データサイエンティストDOJO 2024",
+    "section": "Thursday",
+    "text": "Thursday\n\nData Visualization, PDFs and AI",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#friday",
+    "href": "index.html#friday",
+    "title": "データサイエンティストDOJO 2024",
+    "section": "Friday",
+    "text": "Friday\nTroubleshooting and project work time",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#monday-1",
+    "href": "index.html#monday-1",
+    "title": "データサイエンティストDOJO 2024",
+    "section": "Monday",
+    "text": "Monday\nProject presentations",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "basics.html",
+    "href": "basics.html",
+    "title": "Python basics",
+    "section": "",
+    "text": "There are many, many ways to set up and run Python. Maybe you’ll do it piece by piece yourself, or use plug-and-play with Anaconda, or stick to the cloud with Google Colab\nWe’re going to be using JupyterLab Desktop.\nTo find instructions on using JupyterLab Desktop, check the class slides",
+    "crumbs": [
+      "Python basics"
+    ]
+  },
+  {
+    "objectID": "basics.html#in-class",
+    "href": "basics.html#in-class",
+    "title": "Python basics",
+    "section": "In-class",
+    "text": "In-class\nWelcome survey\nClass slides",
+    "crumbs": [
+      "Python basics"
+    ]
+  },
+  {
+    "objectID": "basics.html#completed-work",
+    "href": "basics.html#completed-work",
+    "title": "Python basics",
+    "section": "Completed work",
+    "text": "Completed work\nCompleted notebooks will be posted after class.",
+    "crumbs": [
+      "Python basics"
+    ]
+  },
+  {
+    "objectID": "basics.html#additional-links",
+    "href": "basics.html#additional-links",
+    "title": "Python basics",
+    "section": "Additional links",
+    "text": "Additional links\n\nPython’s Not (Just) For Unicorns, an introduction to Python",
+    "crumbs": [
+      "Python basics"
+    ]
+  },
+  {
+    "objectID": "data-visualization.html",
+    "href": "data-visualization.html",
+    "title": "Data Visualization, PDFs and AI",
+    "section": "",
+    "text": "Please download these files:\n\nVisualization data\nPDF data\nMore PDFs for research\n\nIf AnythingLLM is not working well for you because your data is in tables and charts, try out this ColiPali notebook I made for you. It runs in the cloud on Google Colab. It isn’t as simple as AnythingLLM, but it shows you what is possible! Note that it is good with English documents but doesn’t seem very good with Japanese documents.\n\n\n\n\nVisualization\nAI\nColiPali example\n\n\n\n\nData visualization\n\nSites to review: Feltron Report and Dear Data\nDesigning Viz, data viz tips\nDatawrapper, a platform for data viz\nDatawrapper Academy, a series of great tutorials for how to use Datawrapper\nFlourish, a platform for data viz\n\nPDFs\n\nTabula, a great tool for extracting data from PDFs\nComparison of PDF data extraction tools\nComparison of OCR tools\n\nArtificial intelligence\n\nClaude for Sheets example sheet\nHugging Face\nAnything LLM",
+    "crumbs": [
+      "Data Visualization"
+    ]
+  },
+  {
+    "objectID": "data-visualization.html#code-and-data",
+    "href": "data-visualization.html#code-and-data",
+    "title": "Data Visualization, PDFs and AI",
+    "section": "",
+    "text": "Please download these files:\n\nVisualization data\nPDF data\nMore PDFs for research\n\nIf AnythingLLM is not working well for you because your data is in tables and charts, try out this ColiPali notebook I made for you. It runs in the cloud on Google Colab. It isn’t as simple as AnythingLLM, but it shows you what is possible! Note that it is good with English documents but doesn’t seem very good with Japanese documents.",
+    "crumbs": [
+      "Data Visualization"
+    ]
+  },
+  {
+    "objectID": "data-visualization.html#slides",
+    "href": "data-visualization.html#slides",
+    "title": "Data Visualization, PDFs and AI",
+    "section": "",
+    "text": "Visualization\nAI\nColiPali example",
+    "crumbs": [
+      "Data Visualization"
+    ]
+  },
+  {
+    "objectID": "data-visualization.html#links",
+    "href": "data-visualization.html#links",
+    "title": "Data Visualization, PDFs and AI",
+    "section": "",
+    "text": "Data visualization\n\nSites to review: Feltron Report and Dear Data\nDesigning Viz, data viz tips\nDatawrapper, a platform for data viz\nDatawrapper Academy, a series of great tutorials for how to use Datawrapper\nFlourish, a platform for data viz\n\nPDFs\n\nTabula, a great tool for extracting data from PDFs\nComparison of PDF data extraction tools\nComparison of OCR tools\n\nArtificial intelligence\n\nClaude for Sheets example sheet\nHugging Face\nAnything LLM",
+    "crumbs": [
+      "Data Visualization"
+    ]
+  },
+  {
+    "objectID": "01-python-basics/homework.html",
+    "href": "01-python-basics/homework.html",
+    "title": "Python Fundamentals homework",
+    "section": "",
+    "text": "Please take the data sources survey here. It will help me know what kind of data or products to focus on."
+  },
+  {
+    "objectID": "01-python-basics/homework.html#setup",
+    "href": "01-python-basics/homework.html#setup",
+    "title": "Python Fundamentals homework",
+    "section": "Setup",
+    "text": "Setup\nPlease create a new notebook named ‘First Homework’.\nTurn the first cell into a Markdown cell and add:\n\nThe first line should be your full name\nThe second line should be the date\nThe third line should be “Homework: Basic Python”\n\nThey should be displayed as a list, with the little bullet points on the left. You can look at what we did in class, check this reference sheet, or even ask ChatGPT."
+  },
+  {
+    "objectID": "01-python-basics/homework.html#assignment",
+    "href": "01-python-basics/homework.html#assignment",
+    "title": "Python Fundamentals homework",
+    "section": "Assignment",
+    "text": "Assignment\nWhen run from top to bottom, this notebook should prompt the user for their year of birth, and display the information below. Use complete sentences (don’t just print the answer), and it’s okay for calculations to be approximate.\nThe first cell should use input to prompt the user for their year of birth. The second cell should do all of the rest.\n\nHow old the user is\nIn that time, how many times the user’s heart has beaten.\nIn that time, how many times a blue whale’s heart has beaten.\nIn that time, how many times a rabbit’s heart has beaten. If the answer to rabbit heartbeats is more than a billion, say “XXX billion” instead of the very long raw number\nThere are several ways to calculate and format/display numbers in Python – string addition, f-strings, commas, etc etc etc. Redo one of the above questions above with another technique and briefly explain the pros and cons of each approach.\nWhether they are the same age as you, older or younger\nIf older or younger, how many years difference\nIf they were born in an even or odd year\nHow many prime ministers have been in office since the user was born\nIf someone says they were born in the future, ask them for their year of birth again. Assume they’ll do it right the second time."
+  },
+  {
+    "objectID": "01-python-basics/homework.html#hints-and-tips",
+    "href": "01-python-basics/homework.html#hints-and-tips",
+    "title": "Python Fundamentals homework",
+    "section": "Hints and tips",
+    "text": "Hints and tips\n\nIf you use ChatGPT to help with this assignment, think about the tradeoffs between the learning process vs the process of having something completed. We’ll talk more about that tomorrow!\n\nTo review the basics of Python, visit the Little Columns tutorial\nWhen you ask a user for information, Python always saves it as a string. But a year as a string isn’t very useful! You’ll need to convert it to an integer before you do anything to it (there might be some tips in the tutorial to help you with that).\nHow fast does a blue whale’s heart beat? I don’t know, I’m not a biologist - research it!\nBefore you write out a solution as code, write out what you want to do in words (a comment would be good for this). Breaking down the steps as “real” text can do a lot to help you organize your Python code.\nXXX billion will involve either division, rounding, or converting to an integer.\nYou might need to know about…\n\nmultiple comparisons in if\nadding one to variables (incrementing)\nelse/elif\nmodulo (for the even/odd one)\n\nAnything not covered in the tutorial probably exists somewhere on the internet, or through ChatGPT!"
+  },
+  {
+    "objectID": "01-python-basics/homework.html#lists",
+    "href": "01-python-basics/homework.html#lists",
+    "title": "Python Fundamentals homework",
+    "section": "Lists",
+    "text": "Lists\n\nMake a list of the following numbers: 22, 90, 0, -10, 3, 22, and 48\nDisplay the number of elements in the list.\nDisplay the 4th element of this list.\nDisplay the sum of the 2nd and 4th element of the list.\nDisplay the 2nd-largest value in the list.\nDisplay the last element of the original unsorted list\nDisplay the sum of all of the numbers divided by two.\nPrint whether the median or the mean of the numbers is higher"
+  },
+  {
+    "objectID": "01-python-basics/homework.html#dictionaries",
+    "href": "01-python-basics/homework.html#dictionaries",
+    "title": "Python Fundamentals homework",
+    "section": "Dictionaries",
+    "text": "Dictionaries\n\nSometimes dictionaries are used to describe multiple aspects of a single object. Like, say, a movie. Define a dictionary called movie that works with the following code.\n\nprint(\"My favorite movie is\", movie['title'], \"which was released in\", movie['year'], \"and was directed by\", movie['director'])\n\nOn the lines after that, add keys to the movie dictionary for budget and revenue (you’ll use code like movie['budget'] = 1000), and print out the difference between the two.\nIf the movie cost more to make than it made in theaters, print “That was a bad investment”. If the film’s revenue was more than five times the amount it cost to make, print “That was a great investment.” Otherwise print “That was an okay investment.”\nSometimes dictionaries are used to describe the same aspects of many different objects. Make ONE dictionary that describes the population of the boroughs of NYC. Manhattan has 1.6 million residents, Brooklyn has 2.6m, Bronx has 1.4m, Queens has 2.3m and Staten Island has 470,000. (Tip: keeping it all in either millions or thousands is a good idea)\nDisplay the population of Brooklyn.\nDisplay the combined population of all five boroughs.\nDisplay what percent of NYC’s population lives in Manhattan."
+  },
+  {
+    "objectID": "01-python-basics/homework.html#tips",
+    "href": "01-python-basics/homework.html#tips",
+    "title": "Python Fundamentals homework",
+    "section": "Tips",
+    "text": "Tips\nThere are two ways to sort a list! One is just for display, and one sorts the list permanently. Keep an eye out for which one you’re using.\nProgrammers are weird about counting. What number do they start with?\nThere might be a magic way to get the last item of a list in Python (or to start counting from the end).\nWhen dealing with multiple numbers - population, for example - be sure to keep them all at the same level. If Brooklyn has 1.4 million people and Staten Island as 470,000, storing their population as 1.4 and 470000 isn’t going to let you compare them accurately!"
+  },
+  {
+    "objectID": "scraping-prompt-2.html",
+    "href": "scraping-prompt-2.html",
+    "title": "Scraping Prompt Codegen Type",
+    "section": "",
+    "text": "Try this prompt in ChatGPT or Claude to put together a scraper!\nThis version uses playwright codegen"
+  },
+  {
+    "objectID": "scraping-prompt-2.html#copy-and-paste-the-prompt-below",
+    "href": "scraping-prompt-2.html#copy-and-paste-the-prompt-below",
+    "title": "Scraping Prompt Codegen Type",
     "section": "Copy and paste the prompt below",
-    "text": "Copy and paste the prompt below\nI have the following guide about scraping a website. Please adapt it to be for how to scrape a different website.\n\nProceed in several steps, ONE AT A TIME. Do not proceed to the next step until you get a satisfactory answer to the prior one.\n\n1. Ask what the URL is\n2. Ask if there are any forms or fields to be filled out. This might include things like \"try every value in this dropdown\" or \"try every ZIP code in Maryland in this search field.\" \n3. Confirm the data that needs to be scraped from the page\n4. Confirm pagination details\n5. Write the guide\n\nIf there is a form that needs to be filled out, you may need to get the HTML for the entire form or parts of the form. If necessary a similar walkthrough as below to understand the HTML. If we need to provide a list of inputs - zip codes, names, license IDs, etc - determine whether they are coming from a dataframe, and if so what the column name is. Be sure you know how to submit the form.\n\nTo confirm columns details, walk me through how to copy the outer HTML of one \"row\" of data. I'm new to scraping and might need help. Decide on columns to be saved, then confirm them with me. If it isn't clear, explain what you need from me.\n\nHelp me determine the pagination situation. Are there multiple pages of content? Is there a 'next page' button that can be pressed again and again? Do you need to click an incrementing number of pages? Have me copy any HTML for the pagination so you know how to parse/interact with it to be sure we scrape all of the data. Ask if infinite scroll is necessary.\n\n## Important Notes: \n\n- You MUST use async playwright\n- Do NOT use asyncio and do NOT wrap everything in an async function.\n- If displaying a dataframe, do NOT use print or ace_tools, just use df.head()\n- The sample tutorial reads a table with pd.read_html. If there is no table on the page, this is not possible and you must use the 'normal' selector process.\n- To protect against missing data, create the DataFrame from a list of dictionaries, not a dictionary of lists. Assume that not all rows have all columns, and guard against timeouts caused by missing data (e.g. some elements might not have a description).\n- If it is a multi-page scraper, provide code to test whether the scraper works on one page of data before jumping into the full process. Ask whether I am satisfied with the result before proceeding.\n- Be resilient against errors when scraping, printing details on failures to help debugging\n- You do NOT need to close the browser. We can figure that out ourselves.\n- Provide complete code\n- The site might be slow or I might have bad internet, set all timeouts to be 10 seconds at a minimum\n- To do the actual extraction, use Playwright's wait_for to assure the elements are on the page then await page.contents() with BeautifulSoup\n\nGUIDE:\n\n## Installation\n\nWe need to install a few tools first! Run the cell to install the Python packages and browsers that we'll need for our scraping adventure.\n\n```\n%%python -m pip install lxml html5lib beautifulsoup4 pandas\n%%python -m pip install --quiet playwright\n!playwright install\n```\n\n## Opening up the browser and visiting our destination\n\nNote that we will NOT use asyncio or sync_playwright in the example below. We also do NOT wrap our code in a big async function.\n\n```\nfrom playwright.async_api import async_playwright\n\n# \"Hey, open up a browser\"\nplaywright = await async_playwright().start()\nbrowser = await playwright.chromium.launch(headless=False)\n\n# Create a new browser window\npage = await browser.new_page()\nawait page.goto(\"https://newjersey.mylicense.com/verification/Search.aspx\")\n```\n\n## Selecting an option from a dropdown\n\nYou always start with await page.locator(\"select\").select_option(\"whatever option you want\"). You'll probably get an error because there are multiple dropdowns on the page, but Playwright doesn't know which one you want to use! Just read the error and figure out the right one.\n\n```\n# await page.locator(\"select\").select_option(\"Acupuncture\")\nawait page.locator(\"#t_web_lookup__profession_name\").select_option(\"Perfusionist\")\n```\n\nClick the submit button.\n\n```\n# await page.get_by_text(\"Search\").click()\nawait page.get_by_role(\"button\", name=\"Search\").click()\n```\n\n## Grab the tables from the page\n\nPandas is the Python equivalent to Excel, and it's great at dealing with tabular data! Often the data on a web page that looks like a spreadsheet can be read with pd.read_html.\n\nYou use await page.content() to save the contents of the page, then feed it to read_html to find the tables. len(tables) checks the number of tables you have, then you manually poke around to see which one is the one you're interested in. tables[0] is the first one, tables[1] is the second one, and so on...\n\n```\nimport pandas as pd\nfrom io import StringIO\n\nhtml = await page.content()\ntables = pd.read_html(StringIO(html))\nlen(tables)\ntables[0]\n```\n\n## Clicking \"next page\" one\n\nJust like using a dropdown, select box or button, we'll use page.get_by_text to try to select the button.\n\nWe add timeout=10000 to wait 5 seconds before confirming it isn't there.\n\n```\n# page.get_by_text(\"Next Page\").click()\nawait page.locator(\"a:has-text('Next Page')\").click(timeout=10000)\n```\n\n## Clicking \"next page\" until it disappears\n\nEventually the \"next page\" link disappears, and Python starts screaming. We use try/except down below to say \"don't worry little baby, it's okay, we'll just finish up if the button is gone.\"\n\n```\n# all of our data will end up going here\nall_data = pd.DataFrame()\n\nwhile True:\n    await page.wait_for_selector(\"table\")\n\n    # Get all of the tables on the page\n    html = await page.content()\n    tables = pd.read_html(StringIO(html))\n\n    # Get the table (and edit if necessary)\n    df = tables[0]\n\n    # Add the tables on this page to the big list of stuff\n    all_data = pd.concat([all_data, df], ignore_index = True)\n    try:\n        await page.locator(\"a:has-text('Next Page')\").click(timeout=5000)\n    except:\n        break\nall_data\n```\n\n## Saving the results\n\nNow we'll save it to a CSV file! Easy peasy.\n\n```\nall_data.to_csv(\"output.csv\", index=False)\n```"
+    "text": "Copy and paste the prompt below\nI have the following guide about scraping a website. Please adapt it to be for how to scrape a different website. Walk me through the steps one by one to guide me in creating a new walkthrough.\n\nProceed in several steps, ONE AT A TIME. Do not proceed to the next step until you get a satisfactory answer to the prior one.\n\n1. Ask me to run `!playwright codegen` and visit and use the web site I want to scrape. I should use any forms or click \"next page\" buttons that will be needed later. Ask me for the **Library Async** code created by codegen.\n2. Ask for the HTML that I should scrape for each row of data\n3. Confirm pagination details\n\nIf I fill out a form for searching, you may need to get the HTML for the entire form or parts of the form. If necessary use a similar walkthrough as below to understand the HTML. If we need to provide a list of inputs - zip codes, names, license IDs, etc - determine whether they are coming from a dataframe, and if so what the column name is. Be sure you know how to submit the form.\n\nTo confirm row data details, walk me through how to copy the outer HTML of one \"row\" of data. I'm new to scraping and might need help. Decide on columns to be saved, then confirm them with me. If it isn't clear, explain what you need from me.\n\nHelp me determine the pagination situation. Are there multiple pages of content? Is there a 'next page' button that can be pressed again and again? Do you need to click an incrementing number of pages? Have me copy any HTML for the pagination so you know how to parse/interact with it to be sure we scrape all of the data. Ask if infinite scroll is necessary.\n\n## Important Notes: \n\n- You MUST use async playwright\n- Do NOT use asyncio and do NOT wrap everything in an async function.\n- If displaying a dataframe, do NOT use print or ace_tools, just use df.head()\n- The sample tutorial reads a table with pd.read_html. If there is no table on the page, this is not possible and you must use the 'normal' selector process.\n- To protect against missing data, create the DataFrame from a list of dictionaries, not a dictionary of lists. Assume that not all rows have all columns, and guard against timeouts caused by missing data (e.g. some elements might not have a description).\n- If it is a multi-page scraper, provide code to test whether the scraper works on one page of data before jumping into the full process. Ask whether I am satisfied with the result before proceeding.\n- Be resilient against errors when scraping, printing details on failures to help debugging\n- You do NOT need to close the browser. We can figure that out ourselves.\n- Provide complete code\n- The site might be slow or I might have bad internet, set all timeouts to be 10 seconds at a minimum\n- To do the actual extraction, use Playwright's wait_for to assure the elements are on the page then await page.contents() with BeautifulSoup\n- Do NOT use a main function, just make code as \"flat\" as possible\n\nGUIDE:\n\n## Installation\n\nWe need to install a few tools first! Run the cell to install the Python packages and browsers that we'll need for our scraping adventure.\n\n```\n%%python -m pip install lxml html5lib beautifulsoup4 pandas\n%%python -m pip install --quiet playwright\n!playwright install\n```\n\n## Opening up the browser and visiting our destination\n\nNote that we will NOT use asyncio or sync_playwright in the example below. We also do NOT wrap our code in a big async function.\n\n```\nfrom playwright.async_api import async_playwright\n\n# \"Hey, open up a browser\"\nplaywright = await async_playwright().start()\nbrowser = await playwright.chromium.launch(headless=False)\n\n# Create a new browser window\npage = await browser.new_page()\nawait page.goto(\"https://newjersey.mylicense.com/verification/Search.aspx\")\n```\n\n## Selecting an option from a dropdown\n\nYou always start with await page.locator(\"select\").select_option(\"whatever option you want\"). You'll probably get an error because there are multiple dropdowns on the page, but Playwright doesn't know which one you want to use! Just read the error and figure out the right one.\n\n```\n# await page.locator(\"select\").select_option(\"Acupuncture\")\nawait page.locator(\"#t_web_lookup__profession_name\").select_option(\"Perfusionist\")\n```\n\nClick the submit button.\n\n```\n# await page.get_by_text(\"Search\").click()\nawait page.get_by_role(\"button\", name=\"Search\").click()\n```\n\n## Grab the tables from the page\n\nPandas is the Python equivalent to Excel, and it's great at dealing with tabular data! Often the data on a web page that looks like a spreadsheet can be read with pd.read_html.\n\nYou use await page.content() to save the contents of the page, then feed it to read_html to find the tables. len(tables) checks the number of tables you have, then you manually poke around to see which one is the one you're interested in. tables[0] is the first one, tables[1] is the second one, and so on...\n\n```\nimport pandas as pd\nfrom io import StringIO\n\nhtml = await page.content()\ntables = pd.read_html(StringIO(html))\nlen(tables)\ntables[0]\n```\n\n## Clicking \"next page\" one\n\nJust like using a dropdown, select box or button, we'll use page.get_by_text to try to select the button.\n\nWe add timeout=10000 to wait 5 seconds before confirming it isn't there.\n\n```\n# page.get_by_text(\"Next Page\").click()\nawait page.locator(\"a:has-text('Next Page')\").click(timeout=10000)\n```\n\n## Clicking \"next page\" until it disappears\n\nEventually the \"next page\" link disappears, and Python starts screaming. We use try/except down below to say \"don't worry little baby, it's okay, we'll just finish up if the button is gone.\"\n\n```\n# all of our data will end up going here\nall_data = pd.DataFrame()\n\nwhile True:\n    await page.wait_for_selector(\"table\")\n\n    # Get all of the tables on the page\n    html = await page.content()\n    tables = pd.read_html(StringIO(html))\n\n    # Get the table (and edit if necessary)\n    df = tables[0]\n\n    # Add the tables on this page to the big list of stuff\n    all_data = pd.concat([all_data, df], ignore_index = True)\n    try:\n        await page.locator(\"a:has-text('Next Page')\").click(timeout=5000)\n    except:\n        break\nall_data\n```\n\n## Saving the results\n\nNow we'll save it to a CSV file! Easy peasy.\n\n```\nall_data.to_csv(\"output.csv\", index=False)\n```"
   }
 ]
