@@ -340,27 +340,7 @@
     "href": "index.html#monday-1",
     "title": "データサイエンティストDOJO 2024",
     "section": "Monday",
-    "text": "Monday\n\nProject presentations\nData- and AI-driven projects (slides)",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#working-with-pdfs",
-    "href": "index.html#working-with-pdfs",
-    "title": "データサイエンティストDOJO 2024",
-    "section": "Working with PDFs",
-    "text": "Working with PDFs\nThe best tool to use for working with PDFs is pdfplumber. There are plenty of videos on YouTube about how to use it (although I haven’t used them)\n\nNotebooks from NICAR 2023\nNotebooks from Lede 2024\n\nYou can also use this interactive demo to test out the cropping/table selection.",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#automatic-scraping",
-    "href": "index.html#automatic-scraping",
-    "title": "データサイエンティストDOJO 2024",
-    "section": "Automatic scraping",
-    "text": "Automatic scraping\nTutorial for an automatic scraper, although you’ll need to change things a little bit to make it work with Playwright. You’ll also want to make your repository private if it isn’t data you’d like to make public! I recommend following the tutorial first to learn how to do it, then doing it with your “real” data separately.",
+    "text": "Monday\n\nProject presentations\nData- and AI-driven projects (slides)\n\n\n\n\n\n\n\nWorking with PDFs\n\n\n\nThe best tool to use for working with PDFs is pdfplumber. There are plenty of videos on YouTube about how to use it (although I haven’t used them)\n\nNotebooks from NICAR 2023\nNotebooks from Lede 2024\n\nYou can also use this interactive demo to test out the cropping/table selection.\n\n\n\n\n\n\n\n\nAutomatic scraping\n\n\n\nTutorial for an automatic scraper, although you’ll need to change things a little bit to make it work with Playwright. You’ll also want to make your repository private if it isn’t data you’d like to make public! I recommend following the tutorial first to learn how to do it, then doing it with your “real” data separately.\n\n\n\n\n\n\n\n\nDeeper data analysis and text analysis\n\n\n\nIf you’re interested in traditional analysis, you might want to try out investigate.ai, a website I made that is a series of tutorials about data science for non-data-science people (journalists). It’s from before ChatGPT, though, so it might not be the best answer these days. It can give you some ideas about things like regression and text analysis, though.",
     "crumbs": [
       "Home"
     ]
