@@ -340,7 +340,7 @@
     "href": "index.html#monday-1",
     "title": "データサイエンティストDOJO 2024",
     "section": "Monday",
-    "text": "Monday\n\nProject presentations\nData- and AI-driven projects (slides)",
+    "text": "Monday\n\nProject presentations\nData- and AI-driven projects (slides)\n\n\n\n\n\n\n\nWorking with PDFs\n\n\n\nThe best tool to use for working with PDFs is pdfplumber. There are plenty of videos on YouTube about how to use it (although I haven’t used them)\n\nNotebooks from NICAR 2023\nNotebooks from Lede 2024\n\nYou can also use this interactive demo to test out the cropping/table selection.",
     "crumbs": [
       "Home"
     ]
